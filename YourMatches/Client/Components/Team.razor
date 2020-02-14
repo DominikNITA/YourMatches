@@ -1,0 +1,31 @@
+﻿@inject HttpClient _http;
+@inject LogoDtoContainer _logos
+
+<div class="team @Venue.ToLower() col-5">
+    <img src="@_imageSource" alt="@Venue Team Logo" class="team-image" />
+    <span class="team-name">
+        @TeamName
+    </span>
+</div>
+
+@code {
+    [Parameter]
+    public string TeamName { get; set; }
+    [Parameter]
+    public string Venue { get; set; }
+    private string _imageSource = "css/blank-logo.svg";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var source = _logos.Logos.Where(l => l.ClubName == TeamName).Select(l => l.ImageSource).FirstOrDefault();
+
+        if (source == null /*&& TeamName == "Granada CF"*/)
+        {
+            var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
+            _logos.Logos.Add(logo);
+            source = logo.ImageSource;
+        }
+
+        _imageSource = source == null ? _imageSource : source;
+    }
+}

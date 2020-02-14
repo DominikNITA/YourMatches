@@ -1,0 +1,21 @@
+﻿<div class="match-tab col-sm-12 col-lg-8">
+    <span class="date-container col-2">
+        <span>@Match.Date.Day/@Match.Date.Month/@Match.Date.Year</span>
+        <span>@Match.Date.Hour:@Match.Date.Minute.ToString("00")</span>
+    </span>
+    <div class="teams-container col-9">
+        <Team TeamName="@Match.HomeTeam.TeamName" Venue="home"></Team> 
+        <p class="col-2">vs.</p> 
+        <Team TeamName="@Match.AwayTeam.TeamName" Venue="away"></Team>
+    </div>
+    <span class="button-container col-1">
+        <button>></button>
+    </span>
+    
+
+</div>
+
+@code {
+    [Parameter]
+    public ScheduledMatchDto Match { get; set; }
+}
