@@ -2,7 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --main-bg-color: #ADC698 /*#a7ff83*/;
+    --main-bg-color: #689045 /*#a7ff83*/;
     --secondary-bg-color: #C8EAD3 /*#17b978*/;
     height: 100%;
     width: 100%;
@@ -158,7 +158,7 @@ app {
     flex-direction: row;
     justify-content: space-between;
     margin: 0.4rem auto;
-    padding: 1rem 1px;
+    padding: 1rem 3rem;
     border: 1px solid black;
     border-radius: 1rem;
     box-shadow: rgba(105,89,88,0.4) 5px 5px;
@@ -168,12 +168,16 @@ app {
 }
 
 .button-container {
+    position: absolute;
+    right: 2px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .date-container {
+    position:absolute;
+    left: 2px;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -183,6 +187,7 @@ app {
     display: flex;
     flex-direction: row;
     justify-content:space-between;
+    /*margin: auto 3rem;*/
 }
 
     .teams-container > p {
@@ -193,12 +198,16 @@ app {
 .team {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin: auto 0.4rem;
 }
 
     .team > img {
-        height: 3rem;
-        width: 3rem;
+        max-height: 3rem;
+        height: auto;
+        max-width: 4rem;
+        width: auto;
+        /*margin: 0 3rem;*/
     }
 
 .team-name {

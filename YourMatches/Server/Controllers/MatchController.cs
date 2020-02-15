@@ -32,13 +32,13 @@ namespace YourMatches.Server.Controllers
         }
 
         [HttpGet]
-        public ScheduledMatchDto[] Get()
+        public List<ScheduledMatchDto> Get()
         {
             List<ScheduledMatchDto> result = new List<ScheduledMatchDto>();
             if (_apiHelper.CheckCallAvaibilty())
             {
                 var matchController = MatchProvider.Create().With(_http).Build();
-                var matches = matchController.GetAllMatches("competitions", "PL,BL1,PD,SA,FL1", "status", "SCHEDULED", "dateFrom", "2020-02-15", "dateTo", "2020-02-16");
+                var matches = matchController.GetAllMatches("competitions", "PL,BL1,PD,SA,FL1", "status", "SCHEDULED", "dateFrom", "2020-02-15", "dateTo", "2020-02-15");
 
                 foreach (var match in matches.Result)
                 {
@@ -51,7 +51,7 @@ namespace YourMatches.Server.Controllers
                         status,
                         winner));
                 }
-                return result.ToArray();
+                return result.ToList();
             }
             else
             {
