@@ -21,16 +21,9 @@
 
         if (source == null /*&& TeamName == "Granada CF"*/)
         {
-            try
-            {
-                var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
-                _logos.Logos.Add(logo);
-                source = logo.ImageSource;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
+            _logos.Logos.Add(logo);
+            source = logo.ImageSource;
         }
 
         _imageSource = source == null ? _imageSource : source;

@@ -1,7 +1,10 @@
 ﻿@page "/"
 @inject HttpClient Http
 
-<LandingLogo></LandingLogo>
+<h1>Hello, football man!</h1>
+<button @onclick="GetMatches">Restart</button>
+Welcome to this crappy site :)
+<p>@response</p>
 @if (matches == null)
 {
     @:Loading Matches...
@@ -18,26 +21,18 @@ else
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code{
-    private List<ScheduledMatchDto> matches;
+    private ScheduledMatchDto[] matches;
+    private string response;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            var response = await Http.GetJsonAsync<List<ScheduledMatchDto>>("match");
-            response.Sort((emp1, emp2) => emp1.Date.Ticks.CompareTo(emp2.Date.Ticks));
-            matches = response;
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
+        matches = await Http.GetJsonAsync<ScheduledMatchDto[]>("match");
         //GetMatches();
     }
 
     protected async void GetMatches()
     {
         matches = null;
-        matches = await Http.GetJsonAsync<List<ScheduledMatchDto>>("match");
+        matches = await Http.GetJsonAsync<ScheduledMatchDto[]>("match");
     }
 }
