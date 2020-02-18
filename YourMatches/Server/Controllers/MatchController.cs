@@ -20,7 +20,7 @@ namespace YourMatches.Server.Controllers
         private readonly ILogger<MatchController> logger;
         private readonly HttpClient _http;
         private readonly ApiHelper _apiHelper;
-        private readonly string API_TOKEN = "e95d43bc75a44b5b9ff0d7b2749ff52f";
+        private readonly string API_TOKEN = "e95d43bc75a44b5b9ff0d7b2749ff52f" /*"816c6d64f7d84e3c82eb5af45172fa86"*/;
         string[] codes = { "SA", "FL1", "BL1", "PL", "PD" };
 
         public MatchController(ILogger<MatchController> logger, ApiHelper apiHelper)
@@ -38,7 +38,7 @@ namespace YourMatches.Server.Controllers
             if (_apiHelper.CheckCallAvaibilty())
             {
                 var matchController = MatchProvider.Create().With(_http).Build();
-                var matches = matchController.GetAllMatches("competitions", "PL,BL1,PD,SA,FL1", "status", "SCHEDULED", "dateFrom", "2020-02-15", "dateTo", "2020-02-16");
+                var matches =  matchController.GetAllMatches("competitions", "PL,BL1,PD,SA,FL1", "status", "FINISHED", "dateFrom", "2020-02-15", "dateTo", "2020-02-16");
 
                 foreach (var match in matches.Result)
                 {

@@ -1,21 +1,41 @@
-﻿<div class="match-tab col-sm-12 col-lg-8">
-    <span class="date-container col-2">
-        <span>@Match.Date.Day/@Match.Date.Month/@Match.Date.Year</span>
-        <span>@Match.Date.Hour:@Match.Date.Minute.ToString("00")</span>
+﻿<div class="match-tab col-12 col-md-10 col-lg-8 flex-column flex-md-row">
+    <span class="date-container col-2 flex-row flex-md-column">
+        <span class="match-date">@Match.Date.Day/@Match.Date.Month.ToString("00")/@Match.Date.Year</span>
+        <span class="match-hour">@Match.Date.Hour:@Match.Date.Minute.ToString("00")</span>
     </span>
-    <div class="teams-container col-9">
-        <Team TeamName="@Match.HomeTeam.TeamName" Venue="home"></Team> 
-        <p class="col-2">vs.</p> 
+    <div class="teams-container col-12 col-md-8">
+        <Team TeamName="@Match.HomeTeam.TeamName" Venue="home"></Team>
+        <p class="col-2 no-gutters">:</p>
         <Team TeamName="@Match.AwayTeam.TeamName" Venue="away"></Team>
     </div>
-    <span class="button-container col-1">
-        <button>></button>
-    </span>
-    
-
+    <div class="button-container col-2 m-auto m-md-0">
+        <div class="mx-auto" @onclick="ChangeDisplay">
+            <span class="oi oi-chevron-bottom details-button @_buttonStyle" title="Details for match" aria-hidden="true"></span>
+        </div>
+    </div>
+    @if (_areDetailsDisplayed)
+    {
+        <div class="col-12">
+            Some details about this amazing match!!!!!!! HEY BRO :)
+        </div>
+    }
 </div>
 
 @code {
     [Parameter]
     public ScheduledMatchDto Match { get; set; }
+    private bool _areDetailsDisplayed = false;
+    private string _buttonStyle = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Match.Date = Match.Date.ToLocalTime();
+    }
+
+    private void ChangeDisplay()
+    {
+        _areDetailsDisplayed = !_areDetailsDisplayed;
+        _buttonStyle = _areDetailsDisplayed? "details-shown" : string.Empty;
+    }
+
 }

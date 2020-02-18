@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.AspNetCore.Blazor.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using YourMatches.Client.Services;
+using Toolbelt.Blazor.TimeZoneKit;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace YourMatches.Client
 {
@@ -15,7 +17,8 @@ namespace YourMatches.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
             _ = builder.Services.AddSingleton<LogoDtoContainer>();
-            await builder.Build().RunAsync();
+            
+            await builder.Build().UseLocalTimeZone().RunAsync();
         }
     }
 }

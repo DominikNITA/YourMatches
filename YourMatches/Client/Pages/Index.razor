@@ -1,10 +1,7 @@
 ﻿@page "/"
 @inject HttpClient Http
-
+<LandingLogo></LandingLogo>
 <h1>Hello, football man!</h1>
-<button @onclick="GetMatches">Restart</button>
-Welcome to this crappy site :)
-<p>@response</p>
 @if (matches == null)
 {
     @:Loading Matches...
@@ -22,12 +19,11 @@ else
 
 @code{
     private ScheduledMatchDto[] matches;
-    private string response;
 
     protected override async Task OnInitializedAsync()
     {
         matches = await Http.GetJsonAsync<ScheduledMatchDto[]>("match");
-        //GetMatches();
+        //matches = matches.ToList().Sort((m1,m2) => m1.Date.CompareTo(m2.Date));
     }
 
     protected async void GetMatches()

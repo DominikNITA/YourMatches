@@ -1,8 +1,10 @@
 ﻿@inject HttpClient _http;
 @inject LogoDtoContainer _logos
 
-<div class="team @Venue.ToLower() col-5">
-    <img src="@_imageSource" alt="@Venue Team Logo" class="team-image" />
+<div class="team @Venue.ToLower() col-5 flex-column @_cssClass">
+    <div class="logo mx-auto mx-md-0">
+        <img src="@_imageSource" alt="@Venue Team Logo" class="team-image" />
+    </div>   
     <span class="team-name">
         @TeamName
     </span>
@@ -14,18 +16,47 @@
     [Parameter]
     public string Venue { get; set; }
     private string _imageSource = "css/blank-logo.svg";
+    private string _cssClass;
 
     protected override async Task OnInitializedAsync()
     {
+
+        if (Venue.ToLower() == "home")
+        {
+            _cssClass = "flex-lg-row";
+        }
+        else
+        {
+            _cssClass = "flex-lg-row-reverse";
+        }
+
         var source = _logos.Logos.Where(l => l.ClubName == TeamName).Select(l => l.ImageSource).FirstOrDefault();
 
         if (source == null /*&& TeamName == "Granada CF"*/)
         {
-            var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
-            _logos.Logos.Add(logo);
-            source = logo.ImageSource;
+            bool logoLoaded = false;
+            while (!logoLoaded)
+            {
+                try
+                {
+                    source = await GetLogoSourceFromServer();
+                    logoLoaded = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Problem with obtaining the following logo: " + e.Message);
+                    await Task.Delay(150);
+                    logoLoaded = false;
+                }
+            }
         }
-
         _imageSource = source == null ? _imageSource : source;
+    }
+
+    private async Task<string> GetLogoSourceFromServer()
+    {
+        var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
+        _logos.Logos.Add(logo);
+        return logo.ImageSource;
     }
 }
