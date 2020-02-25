@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using YourMatches.Shared;
 
 namespace YourMatches.Server.Services
 {
@@ -12,16 +13,19 @@ namespace YourMatches.Server.Services
         private int maxCallsPerInterval;
         private int interval;
 
+        public static readonly Dictionary<League, string> LeaguesCodes = new Dictionary<League, string>()
+        {
+            { League.ENGLAND_1, "PL" },
+            { League.SPAIN_1, "PD" },
+            { League.FRANCE_1, "FL1" },
+            { League.GERMANY_1, "BL1" },
+            { League.ITALY_1, "SA" }
+        };
         public ApiHelper()
         {
             callCounter = new List<Timer>();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="maxCallsPerInterval"></param>
-        /// <param name="interval">Time in seconds</param>
         public ApiHelper(int maxCallsPerInterval, int interval)
         {
             this.callCounter = new List<Timer>();

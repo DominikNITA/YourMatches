@@ -6,11 +6,10 @@ namespace YourMatches.Shared
 {
     public class TeamDto
     {
-        public TeamDto(string teamName, string shortcutName, LeagueDto league)
+        public TeamDto(string teamName, string shortcutName)
         {
             TeamName = teamName;
             ShortcutName = shortcutName;
-            League = league;
         }
 
         public TeamDto()
@@ -19,6 +18,5 @@ namespace YourMatches.Shared
         }
         public string TeamName { get; set; }
         public string ShortcutName { get; set; }
-        public LeagueDto League { get; set; }
     }
 }

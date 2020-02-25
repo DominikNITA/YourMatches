@@ -1,0 +1,49 @@
+﻿@inject HttpClient _http
+<EditForm Model="@Request">
+    <div>
+        Leagues: <br />
+        @foreach (var leagueOption in SupportedOptions.LeaguesNames)
+        {
+            @*<InputCheckbox @onchange="eventargs => { LeagueChanged(leagueOption.Key, eventargs.Value); }">@leagueOption.Value</InputCheckbox>*@
+            <input type="checkbox" checked @onchange="eventArgs => { LeagueChanged(leagueOption.Key, eventArgs.Value); }"/>@leagueOption.Value<br />
+        }
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary" @onclick="OnSubmitCallback"/>
+</EditForm>
+@code {
+    [Parameter]
+    public RequestDto Request { get; set; }
+
+    [Parameter]
+    public EventCallback OnSubmitCallback { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            foreach (var leagueOption in SupportedOptions.LeaguesNames)
+            {
+                if (!Request.LeaguesChecked.Contains(leagueOption.Key))
+                {
+                    Request.LeaguesChecked.Add(leagueOption.Key);
+                    Console.WriteLine(leagueOption.Key.ToString() + "added");
+                }
+            }
+        }
+    }
+
+    private void LeagueChanged(League league, object checkedValue)
+    {
+        if((bool)checkedValue && !Request.LeaguesChecked.Contains(league))
+        {
+            Request.LeaguesChecked.Add(league);
+        }
+        else
+        {
+            Request.LeaguesChecked.Remove(league);
+            Console.WriteLine(league.ToString() + "removed");
+        }
+    }
+}

@@ -21,7 +21,6 @@ namespace YourMatches.Server.Controllers
         private readonly HttpClient _http;
         private readonly ApiHelper _apiHelper;
         private readonly string API_TOKEN = "e95d43bc75a44b5b9ff0d7b2749ff52f" /*"816c6d64f7d84e3c82eb5af45172fa86"*/;
-        string[] codes = { "SA", "FL1", "BL1", "PL", "PD" };
 
         public MatchController(ILogger<MatchController> logger, ApiHelper apiHelper)
         {
@@ -31,27 +30,31 @@ namespace YourMatches.Server.Controllers
             _apiHelper = apiHelper;
         }
 
-        [HttpGet]
-        public ScheduledMatchDto[] Get()
+        [HttpPost]
+        public List<ScheduledMatchDto> Get([FromBody]RequestDto request)
         {
             List<ScheduledMatchDto> result = new List<ScheduledMatchDto>();
             if (_apiHelper.CheckCallAvaibilty())
             {
+                string codes = GetCompetitionsProperty(request.LeaguesChecked);
+
                 var matchController = MatchProvider.Create().With(_http).Build();
-                var matches =  matchController.GetAllMatches("competitions", "PL,BL1,PD,SA,FL1", "status", "FINISHED", "dateFrom", "2020-02-15", "dateTo", "2020-02-16");
+                var matches = matchController.GetAllMatches("competitions", codes , "dateFrom", "2020-02-22", "dateTo", "2020-03-03");
 
                 foreach (var match in matches.Result)
                 {
-                    Enum.TryParse(match.Status.ToUpper(), out Status status);
+                    Enum.TryParse(match.Status.ToUpper(), out Status state);
                     Result winner = match.Score.Winner != null ? Enum.Parse<Result>(match.Score.Winner.ToUpper()) : Result.NONE;
                     result.Add(new ScheduledMatchDto(
-                        new TeamDto(match.HomeTeam.Name, match.HomeTeam.Name, new LeagueDto(match.Competition.Name, match.Competition.Name, match.Competition.Area.Name)),
-                        new TeamDto(match.AwayTeam.Name, match.AwayTeam.Name, new LeagueDto(match.Competition.Name, match.Competition.Name, match.Competition.Area.Name)),
+                        new TeamDto(match.HomeTeam.Name, match.HomeTeam.Name),
+                        new TeamDto(match.AwayTeam.Name, match.AwayTeam.Name),
                         match.UtcDate,
-                        status,
-                        winner));
+                        state,
+                        winner,
+                        (int)match.Matchday,
+                        new LeagueDto(match.Competition.Name, match.Competition.Area.Name)));
                 }
-                return result.ToArray();
+                return result;
             }
             else
             {
@@ -59,6 +62,21 @@ namespace YourMatches.Server.Controllers
                 //result.Add(new ScheduledMatchDto(new TeamDto("aa", "aa", null), new TeamDto("aa", "aa", null), DateTime.Now));
                 return null/*result.ToArray()*/;
             }
+        }
+
+        private string GetCompetitionsProperty(List<League> leagues)
+        {
+            //Refactor with LINQ
+            List<string> leaguesCodes = new List<string>();
+            foreach (var league in leagues)
+            {
+                string code = ApiHelper.LeaguesCodes.First(x => x.Key == league).Value;
+                if(code != null)
+                {
+                    leaguesCodes.Add(code);
+                }
+            }
+            return string.Join(",",leaguesCodes);
         }
         //[HttpGet]
         //public string GetText()

@@ -1,11 +1,11 @@
 ﻿@inject HttpClient _http;
 @inject LogoDtoContainer _logos
 
-<div class="team @Venue.ToLower() col-5 flex-column @_cssClass">
-    <div class="logo mx-auto mx-md-0">
-        <img src="@_imageSource" alt="@Venue Team Logo" class="team-image" />
+<div class="team-container d-flex flex-column @_cssClass p-0 align">
+    <div class="team-logo-container mx-auto mx-md-0">
+        <img src="@_imageSource" alt="@Venue Team Logo" class="team-logo-image img-fluid" />
     </div>   
-    <span class="team-name">
+    <span class="team-name d-flex px-2">
         @TeamName
     </span>
 </div>
@@ -20,14 +20,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-
+        //TODO: Refactor
         if (Venue.ToLower() == "home")
         {
-            _cssClass = "flex-lg-row";
+            _cssClass = "flex-md-row";
         }
         else
         {
-            _cssClass = "flex-lg-row-reverse";
+            _cssClass = "flex-md-row-reverse";
         }
 
         var source = _logos.Logos.Where(l => l.ClubName == TeamName).Select(l => l.ImageSource).FirstOrDefault();
@@ -56,6 +56,7 @@
     private async Task<string> GetLogoSourceFromServer()
     {
         var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
+        //Add logo source to state service
         _logos.Logos.Add(logo);
         return logo.ImageSource;
     }

@@ -1,22 +1,42 @@
-﻿<div class="match-tab col-12 col-md-10 col-lg-8 flex-column flex-md-row">
-    <span class="date-container col-2 flex-row flex-md-column">
-        <span class="match-date">@Match.Date.Day/@Match.Date.Month.ToString("00")/@Match.Date.Year</span>
-        <span class="match-hour">@Match.Date.Hour:@Match.Date.Minute.ToString("00")</span>
-    </span>
-    <div class="teams-container col-12 col-md-8">
-        <Team TeamName="@Match.HomeTeam.TeamName" Venue="home"></Team>
-        <p class="col-2 no-gutters">:</p>
-        <Team TeamName="@Match.AwayTeam.TeamName" Venue="away"></Team>
-    </div>
-    <div class="button-container col-2 m-auto m-md-0">
-        <div class="mx-auto" @onclick="ChangeDisplay">
-            <span class="oi oi-chevron-bottom details-button @_buttonStyle" title="Details for match" aria-hidden="true"></span>
+﻿<div class="match-tab d-flex flex-column mx-md-2 my-2 @_tabStyle">
+    <div class="general d-flex flex-column flex-md-row px-3 py-1 m-2">
+        <div class="date-container d-flex flex-row flex-md-column mr-2">
+            <span class="match-date">@Match.Date.Day/@Match.Date.Month.ToString("00")/@Match.Date.Year</span>
+            <span class="match-hour">@Match.Date.Hour:@Match.Date.Minute.ToString("00")</span>
+        </div>
+        <div class="teams-container d-flex flex-row justify-content-between px-2">
+            <Team TeamName="@Match.HomeTeam.TeamName" Venue="home"></Team>
+            <div class="versus-text mx-2">
+                :
+            </div>
+            <Team TeamName="@Match.AwayTeam.TeamName" Venue="away"></Team>
+        </div>
+        <div class="button-container px-2">
+            <div class="mx-auto" @onclick="ChangeDisplay">
+                <span class="oi oi-chevron-bottom details-button @_buttonStyle" title="Details for match" aria-hidden="true"></span>
+            </div>
         </div>
     </div>
-    @if (_areDetailsDisplayed)
+    @if (Match.Status == Status.POSTPONED)
     {
         <div class="col-12">
-            Some details about this amazing match!!!!!!! HEY BRO :)
+            <span class="text-danger font-weight-bolder border-info border">
+            POSTPONED
+            </span>
+        </div>
+    }
+    @if (_areDetailsDisplayed)
+    {
+        <div class="details-container d-flex flex-column align-content-center">
+            <span class="">
+                Details of the match
+            </span>
+            <span>
+                League: @Match.League.FullName
+            </span>
+            <span>
+                Matchday: @Match.MatchDay
+            </span>
         </div>
     }
 </div>
@@ -24,18 +44,39 @@
 @code {
     [Parameter]
     public ScheduledMatchDto Match { get; set; }
+
     private bool _areDetailsDisplayed = false;
     private string _buttonStyle = "";
+    private string _tabStyle = "";
 
     protected override async Task OnInitializedAsync()
     {
         Match.Date = Match.Date.ToLocalTime();
+        switch (Match.Result)
+        {
+            case Result.DRAW:
+                {
+                    _tabStyle = "result-draw";
+                    break;
+                }
+            case Result.HOME_TEAM:
+                {
+                    _tabStyle = "result-home-win";
+                    break;
+                }
+            case Result.AWAY_TEAM:
+                {
+                    _tabStyle = "result-away-win";
+                    break;
+                }
+            default: break;
+        }
     }
 
     private void ChangeDisplay()
     {
         _areDetailsDisplayed = !_areDetailsDisplayed;
-        _buttonStyle = _areDetailsDisplayed? "details-shown" : string.Empty;
+        _buttonStyle = _areDetailsDisplayed ? "details-shown" : string.Empty;
     }
 
 }

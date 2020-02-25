@@ -2,33 +2,48 @@
 @inject HttpClient Http
 <LandingLogo></LandingLogo>
 <h1>Hello, football man!</h1>
+<FilterForm OnSubmitCallback="@GetMatches" Request="req"></FilterForm>
+
 @if (matches == null)
 {
     @:Loading Matches...
 }
 else
 {
-
-    foreach (var match in matches)
-    {
-        <ScheduledMatch Match="match"></ScheduledMatch>
-    }
+    <div class="container col-12">
+        <div class="row justify-content-center">
+            @foreach (var match in matches)
+            {
+                <ScheduledMatch Match="match"></ScheduledMatch>
+            }
+        </div>
+    </div>
 }
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code{
-    private ScheduledMatchDto[] matches;
+    private List<ScheduledMatchDto> matches;
+    protected RequestDto req = new RequestDto();
+
 
     protected override async Task OnInitializedAsync()
     {
-        matches = await Http.GetJsonAsync<ScheduledMatchDto[]>("match");
-        //matches = matches.ToList().Sort((m1,m2) => m1.Date.CompareTo(m2.Date));
+        //matches = await Http.GetJsonAsync<List<ScheduledMatchDto>>("match");
+        req.LeaguesChecked.Add(League.GERMANY_1);
+        req.LeaguesChecked.Add(League.SPAIN_1);
+        req.LeaguesChecked.Add(League.ITALY_1);
+        req.LeaguesChecked.Add(League.ENGLAND_1);
+        req.LeaguesChecked.Add(League.FRANCE_1);
+        GetMatches();
     }
 
     protected async void GetMatches()
     {
-        matches = null;
-        matches = await Http.GetJsonAsync<ScheduledMatchDto[]>("match");
+        //TODO: Catch errors
+        matches = new List<ScheduledMatchDto>();
+
+        matches = await Http.PostJsonAsync<List<ScheduledMatchDto>>("match", req);
+        StateHasChanged();
     }
 }

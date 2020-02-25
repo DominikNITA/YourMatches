@@ -6,6 +6,7 @@ namespace YourMatches.Shared
 {
     public class ScheduledMatchDto
     {
+        //TODO: Delete unused ctors
         public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date)
         {
             HomeTeam = homeTeam;
@@ -21,10 +22,23 @@ namespace YourMatches.Shared
         {
 
         }
+
+        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, Result result, int matchDay) : this(homeTeam, awayTeam, date, status, result)
+        {
+            MatchDay = matchDay;
+        }
+
+        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, Result result, int matchDay, LeagueDto league) : this(homeTeam, awayTeam, date, status, result, matchDay)
+        {
+            League = league;
+        }
+
         public TeamDto HomeTeam { get; set; }
         public TeamDto AwayTeam { get; set; }
         public DateTime Date { get; set; }
         public Status Status { get; set; }
         public Result Result { get; set; }
+        public int MatchDay { get; set; }
+        public LeagueDto League { get; set; }
     }
 }
