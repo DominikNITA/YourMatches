@@ -1,0 +1,7 @@
+﻿<span class="match-date">@MatchDate.Day.ToString("00")/@MatchDate.Month.ToString("00")/@MatchDate.Year</span>
+<span class="match-hour">@MatchDate.Hour:@MatchDate.Minute.ToString("00")</span>
+
+@code {
+    [Parameter]
+    public DateTime MatchDate { get; set; }
+}

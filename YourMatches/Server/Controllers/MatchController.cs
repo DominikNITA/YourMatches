@@ -10,6 +10,7 @@ using System.Text.Json;
 using FootballDataApi;
 using Newtonsoft.Json;
 using YourMatches.Server.Services;
+using FootballDataApi.Models;
 
 namespace YourMatches.Server.Controllers
 {
@@ -36,24 +37,42 @@ namespace YourMatches.Server.Controllers
             List<ScheduledMatchDto> result = new List<ScheduledMatchDto>();
             if (_apiHelper.CheckCallAvaibilty())
             {
-                string codes = GetCompetitionsProperty(request.LeaguesChecked);
+                //Convert the list of selected list to the string of filter
+                string codes = GetCompetitionsCodes(request.LeaguesChecked);
 
                 var matchController = MatchProvider.Create().With(_http).Build();
-                var matches = matchController.GetAllMatches("competitions", codes , "dateFrom", "2020-02-22", "dateTo", "2020-03-03");
+
+                Task<IEnumerable<Match>> matches;
+                //if (request.EndingDate == null)
+                //{
+                //    var date = request.StartingDate.ToString("dd-MM-yyyy");
+                //    matches = matchController.GetAllMatches("competitions", codes, "dateFrom", "2020-02-22", "dateTo", "2020-03-03");
+                //}
+                //else
+                //{
+                //    matches = matchController.GetAllMatches("competitions", codes, "dateFrom", "2020-02-22", "dateTo", "2020-03-03");
+                //}
+                matches = matchController.GetAllMatches("competitions", codes, "dateFrom", request.StartingDate.ToString("yyyy-MM-dd"), "dateTo", request.EndingDate.ToString("yyyy-MM-dd"));
 
                 foreach (var match in matches.Result)
                 {
                     Enum.TryParse(match.Status.ToUpper(), out Status state);
-                    Result winner = match.Score.Winner != null ? Enum.Parse<Result>(match.Score.Winner.ToUpper()) : Result.NONE;
+                    ScoreResult scoreResult = state == Status.FINISHED ?
+                        new ScoreResult(match.Score.FullTime.HomeTeam.Value, match.Score.FullTime.AwayTeam.Value)
+                        : new ScoreResult();
+
+                    //Result winner = match.Score.Winner != null ? Enum.Parse<Result>(match.Score.Winner.ToUpper()) : Result.NONE;
                     result.Add(new ScheduledMatchDto(
                         new TeamDto(match.HomeTeam.Name, match.HomeTeam.Name),
                         new TeamDto(match.AwayTeam.Name, match.AwayTeam.Name),
                         match.UtcDate,
                         state,
-                        winner,
+                        scoreResult,
                         (int)match.Matchday,
                         new LeagueDto(match.Competition.Name, match.Competition.Area.Name)));
                 }
+                //Filter matches with selected status
+                result = result.Where(m => request.StatusChecked.Contains(m.Status)).ToList();
                 return result;
             }
             else
@@ -64,20 +83,25 @@ namespace YourMatches.Server.Controllers
             }
         }
 
-        private string GetCompetitionsProperty(List<League> leagues)
+        private string GetCompetitionsCodes(List<League> leagues)
         {
             //Refactor with LINQ
             List<string> leaguesCodes = new List<string>();
             foreach (var league in leagues)
             {
                 string code = ApiHelper.LeaguesCodes.First(x => x.Key == league).Value;
-                if(code != null)
+                if (code != null)
                 {
                     leaguesCodes.Add(code);
                 }
             }
-            return string.Join(",",leaguesCodes);
+            return string.Join(",", leaguesCodes);
         }
+
+        //private string ConvertDateTimeToFilterFormat(DateTime dateToConvert)
+        //{
+        //    return dateToConvert.ToShortDateString
+        //}
         //[HttpGet]
         //public string GetText()
         //{

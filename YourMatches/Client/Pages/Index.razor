@@ -30,12 +30,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         //matches = await Http.GetJsonAsync<List<ScheduledMatchDto>>("match");
-        req.LeaguesChecked.Add(League.GERMANY_1);
-        req.LeaguesChecked.Add(League.SPAIN_1);
-        req.LeaguesChecked.Add(League.ITALY_1);
-        req.LeaguesChecked.Add(League.ENGLAND_1);
-        req.LeaguesChecked.Add(League.FRANCE_1);
-        GetMatches();
+        //req.LeaguesChecked.Add(League.GERMANY_1);
+        //req.LeaguesChecked.Add(League.SPAIN_1);
+        //req.LeaguesChecked.Add(League.ITALY_1);
+        //req.LeaguesChecked.Add(League.ENGLAND_1);
+        //req.LeaguesChecked.Add(League.FRANCE_1);
+        //req.StatusChecked.Add(Status.FINISHED);
+        //req.StatusChecked.Add(Status.IN_PLAY);
+        //req.StatusChecked.Add(Status.SCHEDULED);
+        //GetMatches();
+        req.StartingDate = DateTime.Today.AddDays(2);
+        req.EndingDate = DateTime.Today.AddDays(2);
     }
 
     protected async void GetMatches()

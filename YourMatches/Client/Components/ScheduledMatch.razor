@@ -1,15 +1,13 @@
-﻿<div class="match-tab d-flex flex-column mx-md-2 my-2 @_tabStyle">
+﻿@using YourMatches.Client.Components.ScheduledMatchComponents
+<div class="match-tab d-flex flex-column mx-md-2 my-2 @_tabStyle">
     <div class="general d-flex flex-column flex-md-row px-3 py-1 m-2">
         <div class="date-container d-flex flex-row flex-md-column mr-2">
-            <span class="match-date">@Match.Date.Day/@Match.Date.Month.ToString("00")/@Match.Date.Year</span>
-            <span class="match-hour">@Match.Date.Hour:@Match.Date.Minute.ToString("00")</span>
+            <DateContainerComponent  MatchDate="Match.Date"></DateContainerComponent>
         </div>
-        <div class="teams-container d-flex flex-row justify-content-between px-2">
-            <Team TeamName="@Match.HomeTeam.TeamName" Venue="home"></Team>
-            <div class="versus-text mx-2">
-                :
-            </div>
-            <Team TeamName="@Match.AwayTeam.TeamName" Venue="away"></Team>
+        <div class="teams-container d-flex flex-row justify-content-between mx-1 px-2">
+            <TeamComponent TeamName="@Match.HomeTeam.TeamName" Venue="home"></TeamComponent>
+            <TeamSeparatorComponent Status="Match.Status" ScoreResult="Match.ScoreResult"></TeamSeparatorComponent>
+            <TeamComponent TeamName="@Match.AwayTeam.TeamName" Venue="away"></TeamComponent>
         </div>
         <div class="button-container px-2">
             <div class="mx-auto" @onclick="ChangeDisplay">
@@ -19,16 +17,12 @@
     </div>
     @if (Match.Status == Status.POSTPONED)
     {
-        <div class="col-12">
-            <span class="text-danger font-weight-bolder border-info border">
-            POSTPONED
-            </span>
-        </div>
+        <PostponedNotificationComponent></PostponedNotificationComponent>
     }
     @if (_areDetailsDisplayed)
     {
         <div class="details-container d-flex flex-column align-content-center">
-            <span class="">
+            <span>
                 Details of the match
             </span>
             <span>
@@ -46,13 +40,14 @@
     public ScheduledMatchDto Match { get; set; }
 
     private bool _areDetailsDisplayed = false;
-    private string _buttonStyle = "";
-    private string _tabStyle = "";
+    private string _buttonStyle = string.Empty;
+    private string _tabStyle = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         Match.Date = Match.Date.ToLocalTime();
-        switch (Match.Result)
+        //TODO: to delete below
+        switch (Match.ScoreResult.Result)
         {
             case Result.DRAW:
                 {

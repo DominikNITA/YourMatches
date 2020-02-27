@@ -4,11 +4,19 @@
         Leagues: <br />
         @foreach (var leagueOption in SupportedOptions.LeaguesNames)
         {
+            //Request.LeaguesChecked.Add(leagueOption.Key);
             @*<InputCheckbox @onchange="eventargs => { LeagueChanged(leagueOption.Key, eventargs.Value); }">@leagueOption.Value</InputCheckbox>*@
-            <input type="checkbox" checked @onchange="eventArgs => { LeagueChanged(leagueOption.Key, eventArgs.Value); }"/>@leagueOption.Value<br />
+            <input type="checkbox" checked @onchange="eventArgs => { LeagueOptionCheckChanged(leagueOption.Key, eventArgs.Value); }"/>@leagueOption.Value<br />
         }
     </div>
-
+    <div>
+        Match status: <br />
+        @foreach (var statusOption in SupportedOptions.StatusNames)
+        {
+            //Request.StatusChecked.Add(statusOption.Key);
+            <input type="checkbox" checked @onchange="eventArgs => { StatusOptionCheckChanged(statusOption.Key, eventArgs.Value); }"  /> @statusOption.Value<br/>
+        }
+    </div>
     <input type="submit" value="Submit" class="btn btn-primary" @onclick="OnSubmitCallback"/>
 </EditForm>
 @code {
@@ -23,18 +31,31 @@
         base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            foreach (var leagueOption in SupportedOptions.LeaguesNames)
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        foreach (var leagueOption in SupportedOptions.LeaguesNames)
+        {
+            if (!Request.LeaguesChecked.Contains(leagueOption.Key))
             {
-                if (!Request.LeaguesChecked.Contains(leagueOption.Key))
-                {
-                    Request.LeaguesChecked.Add(leagueOption.Key);
-                    Console.WriteLine(leagueOption.Key.ToString() + "added");
-                }
+                Request.LeaguesChecked.Add(leagueOption.Key);
+                Console.WriteLine(leagueOption.Key.ToString() + "added");
+            }
+        }
+        foreach (var statusOption in SupportedOptions.StatusNames)
+        {
+            if (!Request.StatusChecked.Contains(statusOption.Key))
+            {
+                Request.StatusChecked.Add(statusOption.Key);
             }
         }
     }
 
-    private void LeagueChanged(League league, object checkedValue)
+    private void LeagueOptionCheckChanged(League league, object checkedValue)
     {
         if((bool)checkedValue && !Request.LeaguesChecked.Contains(league))
         {
@@ -44,6 +65,19 @@
         {
             Request.LeaguesChecked.Remove(league);
             Console.WriteLine(league.ToString() + "removed");
+        }
+    }
+
+    private void StatusOptionCheckChanged(Status status, object checkedValue)
+    {
+        if ((bool)checkedValue && !Request.StatusChecked.Contains(status))
+        {
+            Request.StatusChecked.Add(status);
+        }
+        else
+        {
+            Request.StatusChecked.Remove(status);
+            Console.WriteLine(status.ToString() + "removed");
         }
     }
 }

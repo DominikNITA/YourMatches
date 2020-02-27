@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourMatches.Client", "YourM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourMatches.Shared", "YourMatches\Shared\YourMatches.Shared.csproj", "{A6CDCB75-083F-494A-8FCC-70518B2E729A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballDataApi", "..\..\..\..\Download\FootballDataApi-master\FootballDataApi-master\src\FootballDataApi\FootballDataApi.csproj", "{27E3868E-ED50-4B92-8578-2DB28E255F8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A6CDCB75-083F-494A-8FCC-70518B2E729A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6CDCB75-083F-494A-8FCC-70518B2E729A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6CDCB75-083F-494A-8FCC-70518B2E729A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27E3868E-ED50-4B92-8578-2DB28E255F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E3868E-ED50-4B92-8578-2DB28E255F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E3868E-ED50-4B92-8578-2DB28E255F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27E3868E-ED50-4B92-8578-2DB28E255F8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

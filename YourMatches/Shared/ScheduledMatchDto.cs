@@ -13,22 +13,22 @@ namespace YourMatches.Shared
             AwayTeam = awayTeam;
             Date = date;
         }
-        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, Result result) : this(homeTeam, awayTeam, date)
+        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, ScoreResult result) : this(homeTeam, awayTeam, date)
         {
             Status = status;
-            Result = result;
+            ScoreResult = result;
         }
         public ScheduledMatchDto()
         {
 
         }
 
-        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, Result result, int matchDay) : this(homeTeam, awayTeam, date, status, result)
+        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, ScoreResult result, int matchDay) : this(homeTeam, awayTeam, date, status, result)
         {
             MatchDay = matchDay;
         }
 
-        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, Result result, int matchDay, LeagueDto league) : this(homeTeam, awayTeam, date, status, result, matchDay)
+        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, ScoreResult result, int matchDay, LeagueDto league) : this(homeTeam, awayTeam, date, status, result, matchDay)
         {
             League = league;
         }
@@ -37,7 +37,7 @@ namespace YourMatches.Shared
         public TeamDto AwayTeam { get; set; }
         public DateTime Date { get; set; }
         public Status Status { get; set; }
-        public Result Result { get; set; }
+        public ScoreResult ScoreResult { get; set; }
         public int MatchDay { get; set; }
         public LeagueDto League { get; set; }
     }

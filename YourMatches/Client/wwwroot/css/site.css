@@ -67,6 +67,10 @@ app {
     font-weight: 600;
 }
 
+.teams-container {
+    flex-grow: 1;
+}
+
 .button-container {
     display: flex;
     flex-direction: column;
@@ -92,6 +96,7 @@ app {
             -webkit-box-shadow: 0px 0px 14px 5px #EDEEC0;
             box-shadow: 0px 0px 14px 5px #EDEEC0;
         }
+
         .button-container div:active {
             background-color: #80cf4a;
             -moz-box-shadow: 0px 0px 14px -5px #80cf4a;
@@ -99,7 +104,7 @@ app {
             box-shadow: 0px 0px 14px -5px #80cf4a;
             font-size: 1.4rem;
             transform: scale(1.3);
-            color:antiquewhite;
+            color: antiquewhite;
         }
 
 .details-shown {
@@ -132,24 +137,35 @@ app {
     height: fit-content;
 }
 
-.team-container{
+.team-container {
     align-items: center;
-}
-.general {
+    flex-grow: 1;
     justify-content: space-around;
 }
+
+/*.general {
+    justify-content: space-around;
+}*/
 
 .team-name, .versus-text {
     display: flex;
     align-items: center;
-    justify-items: center;
-    text-align:center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.versus-text {
+    min-width: 10%;
+    width: 4rem;
+    font-size: 1.9rem;
 }
 
 .team-name {
     width: 10rem;
     overflow-wrap: break-word;
     max-width: 100%;
+    flex-grow: 1;
 }
 
 .team-logo-container {
@@ -169,33 +185,36 @@ app {
     align-items: center;
 }
 
-.result-draw {
+/*.result-draw {
     background: linear-gradient(180deg, rgba(96,95,113,1) 0%, rgba(200,234,211,1) 36%, rgba(200,234,211,1) 100%);
 }
 
 .result-home-win {
-    background: linear-gradient(90deg, rgba(9,181,20,1) 0%, rgba(152,233,178,1) 32%, rgb(213, 193, 181) 100%);
+    background: linear-gradient(90deg, rgba(9,181,20,1) 0%, rgba(152,233,178,1) 32%, rgba(200,234,211,1) 100%);
 }
 
 .result-away-win {
-    background: linear-gradient(270deg, rgba(9,181,20,1) 0%, rgba(152,233,178,1) 32%, rgb(213, 193, 181) 100%);
-}
+    background: linear-gradient(270deg, rgba(9,181,20,1) 0%, rgba(152,233,178,1) 32%, rgba(200,234,211,1) 100%);
+}*/
 
-.postponed{
+.postponed {
 }
 
 @media (max-width: 767.98px) {
-    .team-logo-container{
+    .team-logo-container {
         width: 3rem;
         height: 4rem;
     }
+
     .team-name {
         width: auto;
     }
-    .match-tab{
+
+    .match-tab {
         width: 95%;
     }
-    .team-container{
+
+    .team-container {
         width: 45%;
     }
 }

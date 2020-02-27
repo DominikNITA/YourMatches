@@ -1,0 +1,25 @@
+﻿@if (Status == Status.IN_PLAY)
+{
+    <div class="versus-text">
+        LIVE
+    </div>
+}
+else if (Status == Status.FINISHED)
+{
+    <div class="versus-text">
+        @ScoreResult.HomeGoals : @ScoreResult.AwayGoals
+    </div>
+}
+else
+{
+    <div class="versus-text">
+        :
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ScoreResult ScoreResult { get; set; }
+    [Parameter]
+    public Status Status { get; set; }
+}
