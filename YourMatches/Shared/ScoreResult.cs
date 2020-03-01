@@ -10,21 +10,24 @@ namespace YourMatches.Shared
         public int HomeGoals { get; set; }
         public int AwayGoals { get; set; }
 
-        public ScoreResult(int homeGoals, int awayGoals)
+        public ScoreResult(int? homeGoals, int? awayGoals)
         {
-            HomeGoals = homeGoals;
-            AwayGoals = awayGoals;
-            if (HomeGoals > AwayGoals)
+            if (homeGoals.HasValue && awayGoals.HasValue)
             {
-                Result = Result.HOME_TEAM;
-            }
-            else if (AwayGoals > HomeGoals)
-            {
-                Result = Result.AWAY_TEAM;
-            }
-            else
-            {
-                Result = Result.DRAW;
+                HomeGoals = homeGoals.Value;
+                AwayGoals = awayGoals.Value;
+                if (HomeGoals > AwayGoals)
+                {
+                    Result = Result.HOME_TEAM;
+                }
+                else if (AwayGoals > HomeGoals)
+                {
+                    Result = Result.AWAY_TEAM;
+                }
+                else
+                {
+                    Result = Result.DRAW;
+                } 
             }
         }
         public ScoreResult()

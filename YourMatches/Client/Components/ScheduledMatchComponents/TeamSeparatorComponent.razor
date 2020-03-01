@@ -1,14 +1,16 @@
-﻿@if (Status == Status.IN_PLAY)
+﻿@if (Status == Status.IN_PLAY || Status == Status.PAUSED)
 {
-    <div class="versus-text">
-        LIVE
+    <div class="live-score-container d-flex flex-column">
+        <div class="live-indicator">
+            LIVE
+        </div>
+        <ScoreComponent ScoreResult="ScoreResult"></ScoreComponent>
+
     </div>
 }
 else if (Status == Status.FINISHED)
 {
-    <div class="versus-text">
-        @ScoreResult.HomeGoals : @ScoreResult.AwayGoals
-    </div>
+    <ScoreComponent ScoreResult="ScoreResult"></ScoreComponent>
 }
 else
 {

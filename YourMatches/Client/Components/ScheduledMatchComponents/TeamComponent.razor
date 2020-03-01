@@ -32,7 +32,7 @@
 
         var source = _logos.Logos.Where(l => l.ClubName == TeamName).Select(l => l.ImageSource).FirstOrDefault();
 
-        if (source == null /*&& TeamName == "Granada CF"*/)
+        if (source == null)
         {
             bool logoLoaded = false;
             while (!logoLoaded)
@@ -42,11 +42,9 @@
                     source = await GetLogoSourceFromServer();
                     logoLoaded = true;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine("Problem with obtaining the following logo: " + e.Message);
                     await Task.Delay(150);
-                    logoLoaded = false;
                 }
             }
         }

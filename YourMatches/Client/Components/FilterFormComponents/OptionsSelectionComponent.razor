@@ -1,0 +1,16 @@
+﻿<div class="d-flex flex-column px-4 py-2 mx-2 my-1 options-selection">
+    <div class="options-selection-header">
+        <span class="options-selection-title">@Title</span>
+    </div>
+    <div class="options-selection-content">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+}

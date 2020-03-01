@@ -1,7 +1,10 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css?family=Lato|Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Squada+One&display=swap');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
     --main-bg-color: #689045 /*#a7ff83*/;
     --secondary-bg-color: #C8EAD3 /*#17b978*/;
     height: 100%;
@@ -58,7 +61,7 @@ app {
     flex-direction: row;
     justify-content: space-between;
     margin: 0.4rem auto;
-    padding: 1rem 5px;
+    /*padding: 1rem 5px;*/
     border: 0.3px solid black;
     border-radius: 3px;
     box-shadow: rgba(105,89,88,0.4) 0 0 10px 5px;
@@ -119,8 +122,12 @@ app {
     text-align: center;
 }
 
+
+
 .match-hour {
     font-size: 3rem;
+    font-family: "Squada One";
+    font-weight: 200;
 }
 
 .landing-logo {
@@ -163,7 +170,7 @@ app {
 
 .team-name {
     width: 10rem;
-    overflow-wrap: break-word;
+    word-break: break-word;
     max-width: 100%;
     flex-grow: 1;
 }
@@ -185,6 +192,10 @@ app {
     align-items: center;
 }
 
+input[type='checkbox'] {
+    transform: scale(1.1);
+}
+
 /*.result-draw {
     background: linear-gradient(180deg, rgba(96,95,113,1) 0%, rgba(200,234,211,1) 36%, rgba(200,234,211,1) 100%);
 }
@@ -198,6 +209,36 @@ app {
 }*/
 
 .postponed {
+    margin-bottom: 4px;
+}
+
+.options-selection{
+    background-color:antiquewhite;
+    border-radius: 13px;
+    font-size: 1.2rem;
+}
+
+.options-selection-title{
+    font-size: 1.4em;
+    font-family: Roboto;
+    background-color: red;
+}
+
+.options-selection-content{
+    margin: auto 0;
+}
+
+.live-indicator{
+    padding: 1px 2px;
+    background-color: rgb(221, 64, 64);
+    border-radius: 10px;
+    font-weight:500;
+}
+
+.start-search-button{
+    height: auto;
+    width: auto;
+
 }
 
 @media (max-width: 767.98px) {

@@ -11,7 +11,7 @@
 else
 {
     <div class="container col-12">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-stretch">
             @foreach (var match in matches)
             {
                 <ScheduledMatch Match="match"></ScheduledMatch>
@@ -39,8 +39,8 @@ else
         //req.StatusChecked.Add(Status.IN_PLAY);
         //req.StatusChecked.Add(Status.SCHEDULED);
         //GetMatches();
-        req.StartingDate = DateTime.Today.AddDays(2);
-        req.EndingDate = DateTime.Today.AddDays(2);
+        //req.StartingDate = DateTime.Today.AddDays(2);
+        //req.EndingDate = DateTime.Today.AddDays(2);
     }
 
     protected async void GetMatches()

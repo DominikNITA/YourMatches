@@ -1,0 +1,12 @@
+﻿<div class="d-flex flex-column flex-sm-row py-1 py-sm-2 justify-content-sm-between">
+    <span class="px-1 flex-sm-grow-1">@Title</span>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+}

@@ -23,6 +23,7 @@ namespace YourMatches.Server
             services.AddSingleton(new ApiHelper(10,60));
             services.AddSingleton<LogoContainer>();
             services.AddHttpClient<WebScraper>();
+            services.AddHttpClient<MatchRetriever>();
             //services.AddSingleton<WebScraper>();
         }
 

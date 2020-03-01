@@ -11,6 +11,7 @@ using FootballDataApi;
 using Newtonsoft.Json;
 using YourMatches.Server.Services;
 using FootballDataApi.Models;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace YourMatches.Server.Controllers
 {
@@ -19,16 +20,14 @@ namespace YourMatches.Server.Controllers
     public class MatchController : ControllerBase
     {
         private readonly ILogger<MatchController> logger;
-        private readonly HttpClient _http;
         private readonly ApiHelper _apiHelper;
-        private readonly string API_TOKEN = "e95d43bc75a44b5b9ff0d7b2749ff52f" /*"816c6d64f7d84e3c82eb5af45172fa86"*/;
+        private readonly MatchRetriever _matchRetriever;
 
-        public MatchController(ILogger<MatchController> logger, ApiHelper apiHelper)
+        public MatchController(ILogger<MatchController> logger, ApiHelper apiHelper, MatchRetriever matchRetriever)
         {
             this.logger = logger;
-            _http = new HttpClient();
-            _http.DefaultRequestHeaders.Add("X-Auth-Token", API_TOKEN);
             _apiHelper = apiHelper;
+            _matchRetriever = matchRetriever;
         }
 
         [HttpPost]
@@ -37,43 +36,7 @@ namespace YourMatches.Server.Controllers
             List<ScheduledMatchDto> result = new List<ScheduledMatchDto>();
             if (_apiHelper.CheckCallAvaibilty())
             {
-                //Convert the list of selected list to the string of filter
-                string codes = GetCompetitionsCodes(request.LeaguesChecked);
-
-                var matchController = MatchProvider.Create().With(_http).Build();
-
-                Task<IEnumerable<Match>> matches;
-                //if (request.EndingDate == null)
-                //{
-                //    var date = request.StartingDate.ToString("dd-MM-yyyy");
-                //    matches = matchController.GetAllMatches("competitions", codes, "dateFrom", "2020-02-22", "dateTo", "2020-03-03");
-                //}
-                //else
-                //{
-                //    matches = matchController.GetAllMatches("competitions", codes, "dateFrom", "2020-02-22", "dateTo", "2020-03-03");
-                //}
-                matches = matchController.GetAllMatches("competitions", codes, "dateFrom", request.StartingDate.ToString("yyyy-MM-dd"), "dateTo", request.EndingDate.ToString("yyyy-MM-dd"));
-
-                foreach (var match in matches.Result)
-                {
-                    Enum.TryParse(match.Status.ToUpper(), out Status state);
-                    ScoreResult scoreResult = state == Status.FINISHED ?
-                        new ScoreResult(match.Score.FullTime.HomeTeam.Value, match.Score.FullTime.AwayTeam.Value)
-                        : new ScoreResult();
-
-                    //Result winner = match.Score.Winner != null ? Enum.Parse<Result>(match.Score.Winner.ToUpper()) : Result.NONE;
-                    result.Add(new ScheduledMatchDto(
-                        new TeamDto(match.HomeTeam.Name, match.HomeTeam.Name),
-                        new TeamDto(match.AwayTeam.Name, match.AwayTeam.Name),
-                        match.UtcDate,
-                        state,
-                        scoreResult,
-                        (int)match.Matchday,
-                        new LeagueDto(match.Competition.Name, match.Competition.Area.Name)));
-                }
-                //Filter matches with selected status
-                result = result.Where(m => request.StatusChecked.Contains(m.Status)).ToList();
-                return result;
+                return _matchRetriever.GetMatchesFromApi(request);
             }
             else
             {
@@ -83,20 +46,7 @@ namespace YourMatches.Server.Controllers
             }
         }
 
-        private string GetCompetitionsCodes(List<League> leagues)
-        {
-            //Refactor with LINQ
-            List<string> leaguesCodes = new List<string>();
-            foreach (var league in leagues)
-            {
-                string code = ApiHelper.LeaguesCodes.First(x => x.Key == league).Value;
-                if (code != null)
-                {
-                    leaguesCodes.Add(code);
-                }
-            }
-            return string.Join(",", leaguesCodes);
-        }
+
 
         //private string ConvertDateTimeToFilterFormat(DateTime dateToConvert)
         //{
