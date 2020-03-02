@@ -1,5 +1,4 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-@import url('https://fonts.googleapis.com/css?family=Lato|Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css?family=PT+Sans|Squada+One&display=swap');
 
@@ -34,6 +33,8 @@ app {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow:hidden;
+    min-height: 100vh;
 }
 
 #blazor-error-ui {
@@ -67,7 +68,7 @@ app {
     box-shadow: rgba(105,89,88,0.4) 0 0 10px 5px;
     background-color: var(--secondary-bg-color);
     font-size: large;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .teams-container {
@@ -122,7 +123,9 @@ app {
     text-align: center;
 }
 
-
+.match-date{
+    font-weight: 600;
+}
 
 .match-hour {
     font-size: 3rem;
@@ -164,7 +167,7 @@ app {
 
 .versus-text {
     min-width: 10%;
-    width: 4rem;
+    width: 4.5rem;
     font-size: 1.9rem;
 }
 
@@ -209,7 +212,14 @@ input[type='checkbox'] {
 }*/
 
 .postponed {
-    margin-bottom: 4px;
+    background-color: #e2e248;
+    border-radius: 3px;
+    border: 1px solid black;
+    font-size: 0.9rem;
+    flex-shrink: 1;
+    min-width: 10%;
+    width: 4.5rem;
+    white-space: nowrap;
 }
 
 .options-selection{
@@ -229,17 +239,34 @@ input[type='checkbox'] {
 }
 
 .live-indicator{
-    padding: 1px 2px;
+    padding: 1px 1px;
     background-color: rgb(221, 64, 64);
     border-radius: 10px;
-    font-weight:500;
+    font-weight:700;
 }
 
 .start-search-button{
     height: auto;
     width: auto;
-
 }
+
+footer {
+    position: relative;
+    bottom: -15rem;
+    width: 30rem;
+    height: 30rem;
+    border: 20px solid white;
+    border-radius: 30rem 30rem 0px 0px;
+    max-width: 90%;
+    margin-top: -5rem;
+}
+
+.footer-info {
+    position: relative;
+    bottom: 0;
+    font-size: 1.3rem;
+}
+
 
 @media (max-width: 767.98px) {
     .team-logo-container {

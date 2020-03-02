@@ -4,9 +4,18 @@
 <h1>Hello, football man!</h1>
 <FilterForm OnSubmitCallback="@GetMatches" Request="req"></FilterForm>
 
-@if (matches == null)
+@* Order of conditions matters *@
+<div>@if (_isRequestLimitAchieved)
+{
+    <span class="my-3 alert alert-danger">Limit of submits reached. Please try again in a while :(</span>
+}
+else if (matches == null)
 {
     @:Loading Matches...
+}
+else if (matches.Count() == 0)
+{
+    <span class="my-3 alert alert-info" >No matches found for this day/range. Please select another date or choose another search options :)</span>
 }
 else
 {
@@ -18,37 +27,30 @@ else
             }
         </div>
     </div>
-}
+}</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
+<FooterComponent></FooterComponent>
 @code{
     private List<ScheduledMatchDto> matches;
     protected RequestDto req = new RequestDto();
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        //matches = await Http.GetJsonAsync<List<ScheduledMatchDto>>("match");
-        //req.LeaguesChecked.Add(League.GERMANY_1);
-        //req.LeaguesChecked.Add(League.SPAIN_1);
-        //req.LeaguesChecked.Add(League.ITALY_1);
-        //req.LeaguesChecked.Add(League.ENGLAND_1);
-        //req.LeaguesChecked.Add(League.FRANCE_1);
-        //req.StatusChecked.Add(Status.FINISHED);
-        //req.StatusChecked.Add(Status.IN_PLAY);
-        //req.StatusChecked.Add(Status.SCHEDULED);
-        //GetMatches();
-        //req.StartingDate = DateTime.Today.AddDays(2);
-        //req.EndingDate = DateTime.Today.AddDays(2);
-    }
+    private bool _isRequestLimitAchieved = false;
 
     protected async void GetMatches()
     {
-        //TODO: Catch errors
-        matches = new List<ScheduledMatchDto>();
-
-        matches = await Http.PostJsonAsync<List<ScheduledMatchDto>>("match", req);
+        matches = null;
+        _isRequestLimitAchieved = false;
+        try
+        {
+            matches = await Http.PostJsonAsync<List<ScheduledMatchDto>>("match", req);
+            if (matches == null)
+            {
+                matches = new List<ScheduledMatchDto>();
+            }
+        }
+        catch (Exception)
+        {
+            _isRequestLimitAchieved = true;
+        }
         StateHasChanged();
     }
 }

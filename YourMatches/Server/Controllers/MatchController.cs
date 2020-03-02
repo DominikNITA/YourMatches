@@ -31,34 +31,17 @@ namespace YourMatches.Server.Controllers
         }
 
         [HttpPost]
-        public List<ScheduledMatchDto> Get([FromBody]RequestDto request)
+        public async Task<ActionResult<List<ScheduledMatchDto>>> Get([FromBody]RequestDto request)
         {
-            List<ScheduledMatchDto> result = new List<ScheduledMatchDto>();
             if (_apiHelper.CheckCallAvaibilty())
             {
-                return _matchRetriever.GetMatchesFromApi(request);
+                return await _matchRetriever.GetMatchesFromApi(request);
             }
             else
             {
-                //TODO: Send error of too many requests
-                //result.Add(new ScheduledMatchDto(new TeamDto("aa", "aa", null), new TeamDto("aa", "aa", null), DateTime.Now));
-                return null/*result.ToArray()*/;
+                logger.LogWarning("Limit of requests reached.");
+                throw new Exception("Too many requests!");
             }
         }
-
-
-
-        //private string ConvertDateTimeToFilterFormat(DateTime dateToConvert)
-        //{
-        //    return dateToConvert.ToShortDateString
-        //}
-        //[HttpGet]
-        //public string GetText()
-        //{
-        //    var competitionController = CompetitionProvider.Create().With(_http).Build();
-
-        //    var competitions = competitionController.GetAvailableCompetition();
-        //    return competitions.Result.Select(s => (s.Id, s.Name)).Aggregate("", (current, next) => current + ", " + next);
-        //}
     }
 }

@@ -5,12 +5,15 @@
             LIVE
         </div>
         <ScoreComponent ScoreResult="ScoreResult"></ScoreComponent>
-
     </div>
 }
 else if (Status == Status.FINISHED)
 {
     <ScoreComponent ScoreResult="ScoreResult"></ScoreComponent>
+}
+else if (Status == Status.POSTPONED || Status == Status.CANCELED)
+{
+    <PostponedNotificationComponent></PostponedNotificationComponent>
 }
 else
 {

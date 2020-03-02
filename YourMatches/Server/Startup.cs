@@ -20,11 +20,10 @@ namespace YourMatches.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
-            services.AddSingleton(new ApiHelper(10,60));
+            services.AddSingleton(new ApiHelper(2,60));
             services.AddSingleton<LogoContainer>();
             services.AddHttpClient<WebScraper>();
             services.AddHttpClient<MatchRetriever>();
-            //services.AddSingleton<WebScraper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,9 +39,7 @@ namespace YourMatches.Server
 
             app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Client.Program>();
-
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();

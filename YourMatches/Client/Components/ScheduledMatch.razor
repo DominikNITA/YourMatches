@@ -1,5 +1,5 @@
 ﻿@using YourMatches.Client.Components.ScheduledMatchComponents
-<div class="match-tab d-flex flex-column mx-md-2 my-2 @_tabStyle">
+<div class="match-tab d-flex flex-column mx-md-2 my-2">
     <div class="general d-flex flex-column flex-md-row px-3 py-2">
         <div class="date-container d-flex flex-row flex-md-column mr-2 align-items-center">
             <DateContainerComponent  MatchDate="Match.Date"></DateContainerComponent>
@@ -15,10 +15,6 @@
             </div>
         </div>
     </div>
-    @if (Match.Status == Status.POSTPONED)
-    {
-        <PostponedNotificationComponent></PostponedNotificationComponent>
-    }
     @if (_areDetailsDisplayed)
     {
         <div class="details-container d-flex flex-column align-content-center">
@@ -41,31 +37,11 @@
 
     private bool _areDetailsDisplayed = false;
     private string _buttonStyle = string.Empty;
-    private string _tabStyle = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
+        //Date is in UTC, so we change it to client time zone
         Match.Date = Match.Date.ToLocalTime();
-        //TODO: to delete below
-        switch (Match.ScoreResult.Result)
-        {
-            case Result.DRAW:
-                {
-                    _tabStyle = "result-draw";
-                    break;
-                }
-            case Result.HOME_TEAM:
-                {
-                    _tabStyle = "result-home-win";
-                    break;
-                }
-            case Result.AWAY_TEAM:
-                {
-                    _tabStyle = "result-away-win";
-                    break;
-                }
-            default: break;
-        }
     }
 
     private void ChangeDisplay()

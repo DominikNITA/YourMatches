@@ -53,6 +53,7 @@
 
     private async Task<string> GetLogoSourceFromServer()
     {
+        //TODO: Catch errors
         var logo = await _http.GetJsonAsync<LogoDto>($"Logo/{TeamName}");
         //Add logo source to state service
         _logos.Logos.Add(logo);

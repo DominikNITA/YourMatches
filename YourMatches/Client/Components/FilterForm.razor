@@ -54,18 +54,8 @@
 @code {
     [Parameter]
     public RequestDto Request { get; set; }
-
     [Parameter]
     public EventCallback OnSubmitCallback { get; set; }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-        if (firstRender)
-        {
-
-        }
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -75,7 +65,6 @@
             if (!Request.LeaguesChecked.Contains(leagueOption.Key))
             {
                 Request.LeaguesChecked.Add(leagueOption.Key);
-                Console.WriteLine(leagueOption.Key.ToString() + "added");
             }
         }
         foreach (var statusOption in SupportedOptions.StatusNames)
@@ -85,7 +74,6 @@
                 Request.StatusChecked.Add(statusOption.Key);
             }
         }
-
         await OnSubmitCallback.InvokeAsync(Request);
     }
 
@@ -98,7 +86,6 @@
         else
         {
             Request.LeaguesChecked.Remove(league);
-            Console.WriteLine(league.ToString() + "removed");
         }
     }
 
@@ -111,7 +98,6 @@
         else if (!(bool)checkedValue)
         {
             Request.StatusChecked.Remove(status);
-            Console.WriteLine(status.ToString() + "removed");
         }
     }
 

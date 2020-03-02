@@ -19,7 +19,7 @@ namespace YourMatches.Server.Services
             _httpClient.DefaultRequestHeaders.Add("X-Auth-Token", API_TOKEN);
         }
 
-        public List<ScheduledMatchDto> GetMatchesFromApi(RequestDto request)
+        public async Task<List<ScheduledMatchDto>> GetMatchesFromApi(RequestDto request)
         {
             List<ScheduledMatchDto> result = new List<ScheduledMatchDto>();
             //Convert the list of selected list to the string of filter
@@ -27,15 +27,15 @@ namespace YourMatches.Server.Services
 
             var matchController = MatchProvider.Create().With(_httpClient).Build();
 
-            Task<IEnumerable<Match>> matches;
+            IEnumerable<Match> matches;
             if (!request.IsEndingDateSelected)
             {
                 request.EndingDate = request.StartingDate;
             }
 
-            matches = matchController.GetAllMatches("competitions", codes, "dateFrom", request.StartingDate.ToString("yyyy-MM-dd"), "dateTo", request.EndingDate.ToString("yyyy-MM-dd"));
+            matches = await matchController.GetAllMatches("competitions", codes, "dateFrom", request.StartingDate.ToString("yyyy-MM-dd"), "dateTo", request.EndingDate.ToString("yyyy-MM-dd"));
 
-            foreach (var match in matches.Result)
+            foreach (var match in matches)
             {
                 Enum.TryParse(match.Status.ToUpper(), out Status state);
                 ScoreResult scoreResult = new ScoreResult(match.Score.FullTime.HomeTeam, match.Score.FullTime.AwayTeam);
@@ -56,7 +56,7 @@ namespace YourMatches.Server.Services
 
         private string GetCompetitionsCodes(List<League> leagues)
         {
-            //Refactor with LINQ
+            //TODO: Refactor with LINQ
             List<string> leaguesCodes = new List<string>();
             foreach (var league in leagues)
             {
