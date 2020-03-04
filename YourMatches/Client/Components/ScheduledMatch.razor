@@ -6,13 +6,13 @@
             <DateContainerComponent  MatchDate="Match.Date"></DateContainerComponent>
         </div>
 
-        <div class="teams-container d-flex flex-row justify-content-between mx-1 px-2">
+        <div class="teams-container d-flex flex-row justify-content-between px-2">
             <TeamComponent TeamName="@Match.HomeTeam" Venue="home"></TeamComponent>
             <TeamSeparatorComponent Status="Match.Status" ScoreResult="Match.ScoreResult"></TeamSeparatorComponent>
             <TeamComponent TeamName="@Match.AwayTeam" Venue="away"></TeamComponent>
         </div>
 
-        <div class="button-container px-2">
+        <div class="button-container">
             <div class="mx-auto" @onclick="ChangeDisplay">
                 <span class="oi oi-chevron-bottom details-button @_buttonStyle" title="Details for match" aria-hidden="true"></span>
             </div>

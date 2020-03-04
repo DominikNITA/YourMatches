@@ -1,12 +1,12 @@
 ﻿@page "/"
 @inject HttpClient Http
 
-@*<LandingLogo></LandingLogo>*@
-    <div class="col-12 col-md-8 col-xl-6 my-3">
-        <h1 class="mx-auto">Hello, football fan!</h1>
-        <p>This app allows you to check upcomming matches from top five european leagues. You can select specific date or date span of maximum 10 days. </p>
-        <p>All trademarks are the property of their respective owners and are used to facilitate identification of clubs</p>
-    </div>
+<LandingLogo></LandingLogo>
+<div class="col-12 col-md-8 col-xl-6 mt-3 mb-5 top-header">
+    <h1 class="mx-auto">Hello, football fan!</h1>
+    <p>This app allows you to check upcoming matches from top five european leagues. You can select specific date or date span of maximum 10 days. Live scores update on resubmit of form. If you would like to add some new features feel free to send them to me via <a href="https://github.com/DominikNITA/YourMatches">Github</a>.</p>
+    <p>All trademarks are the property of their respective owners and are used to facilitate identification of clubs</p>
+</div>
 <FilterForm OnSubmitCallback="@GetMatches" Request="req"></FilterForm>
 @* Order of conditions matters *@
 @if (_isRequestLimitAchieved)
@@ -60,5 +60,4 @@ else
         }
         StateHasChanged();
     }
-
 }

@@ -1,6 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css?family=PT+Sans|Squada+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bitter&display=swap');
 
 html, body {
     font-family: 'PT Sans', Helvetica, Arial, sans-serif;
@@ -37,6 +38,12 @@ app {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.top-header{
+    padding: 20px 20px;
+    background-color: #deef96;
+    border-radius: 1rem;
 }
 
 #blazor-error-ui {
@@ -133,13 +140,38 @@ app {
     font-size: 3rem;
     font-family: "Squada One";
     font-weight: 200;
+    min-width: 6.2rem;
 }
 
-.landing-logo {
+.landing-logo-box {
     max-height: 15rem;
-    font-size: 5rem;
+    min-height: 5rem;
     border: 15px solid white;
     border-top: none;
+    width: 40rem;
+    max-width: 95%;
+}
+
+    .landing-logo-box div {
+        height: 45%;
+        width: 100%;
+    }
+
+        .landing-logo-box div svg {
+            width: 100%;
+            height: auto;
+            font-family: 'Bitter', serif;
+        }
+.landing-logo-circle {
+    width: 50%;
+    max-width: 10rem;
+    width: 35%;
+    height: 5rem;
+    max-height: calc(50%/2);
+    border: 15px solid white;
+    border-radius: 0px 0px 13rem 13rem;
+    /*max-width: 90%;*/
+    border-top: 0;
 }
 
 .match-tab {
@@ -155,9 +187,6 @@ app {
     justify-content: space-around;
 }
 
-/*.general {
-    justify-content: space-around;
-}*/
 
 .team-name, .versus-text {
     display: flex;
@@ -168,8 +197,8 @@ app {
 }
 
 .versus-text {
-    min-width: 10%;
-    width: 4.5rem;
+    width: 10%;
+    max-width: 4.5rem;
     font-size: 1.9rem;
 }
 
@@ -235,6 +264,11 @@ input[type='checkbox'] {
     margin: auto 0;
 }
 
+.validation-message{
+    color: red;
+    font-weight: 700;
+}
+
 .live-indicator {
     padding: 1px 1px;
     background-color: rgb(221, 64, 64);
@@ -243,18 +277,6 @@ input[type='checkbox'] {
 }
 
 .start-search-button {
-    /*box-shadow: 0px 8px 28px 3px #5ec21b;
-    background-color: #d17666;
-    border-radius: 28px;
-    border: 2px solid #c6cc26;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: Arial;
-    font-size: 24px;
-    padding: 12px 25px;
-    text-decoration: none;
-    text-shadow: 3px 3px 8px #2f6627;*/
     border: 3px solid white;
     border-radius: 28px;
     color: white;
@@ -288,13 +310,9 @@ footer {
     footer span {
         position: relative;
         bottom: 0;
+        font-weight: 600;
+        font-size: 1.4rem;
     }
-
-.footer-info {
-    position: relative;
-    bottom: 0;
-    font-size: 1.3rem;
-}
 
 .information {
     height: auto;
@@ -305,7 +323,7 @@ footer {
     animation: roll-in-left 1.5s infinite both;
 }
 
-.fade-in{
+.fade-in {
     animation: fade-in 1s;
 }
 
@@ -323,14 +341,16 @@ footer {
     }
 }
 
-@keyframes fade-in{
-    0%{
+@keyframes fade-in {
+    0% {
         opacity: 0;
     }
-    30%{
+
+    30% {
         opacity: 0.1;
     }
-    100%{
+
+    100% {
         opacity: 1;
     }
 }
