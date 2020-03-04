@@ -1,21 +1,29 @@
 ﻿@page "/"
 @inject HttpClient Http
-<LandingLogo></LandingLogo>
-<h1>Hello, football man!</h1>
-<FilterForm OnSubmitCallback="@GetMatches" Request="req"></FilterForm>
 
+@*<LandingLogo></LandingLogo>*@
+    <div class="col-12 col-md-8 col-xl-6 my-3">
+        <h1 class="mx-auto">Hello, football fan!</h1>
+        <p>This app allows you to check upcomming matches from top five european leagues. You can select specific date or date span of maximum 10 days. </p>
+        <p>All trademarks are the property of their respective owners and are used to facilitate identification of clubs</p>
+    </div>
+<FilterForm OnSubmitCallback="@GetMatches" Request="req"></FilterForm>
 @* Order of conditions matters *@
-<div>@if (_isRequestLimitAchieved)
+@if (_isRequestLimitAchieved)
 {
-    <span class="my-3 alert alert-danger">Limit of submits reached. Please try again in a while :(</span>
+    <div class="information">
+        <div class="my-3 alert alert-danger">Limit of submits reached. Please try again in a while :(</div>
+    </div>
 }
 else if (matches == null)
 {
-    @:Loading Matches...
+    <LoadingComponent></LoadingComponent>
 }
 else if (matches.Count() == 0)
 {
-    <span class="my-3 alert alert-info" >No matches found for this day/range. Please select another date or choose another search options :)</span>
+    <div class="information">
+        <div class="my-3 alert alert-info">No matches found for this day/range. Please select another date or choose another search options :)</div>
+    </div>
 }
 else
 {
@@ -27,12 +35,11 @@ else
             }
         </div>
     </div>
-}</div>
+}
 
-<FooterComponent></FooterComponent>
 @code{
     private List<ScheduledMatchDto> matches;
-    protected RequestDto req = new RequestDto();
+    private RequestDto req = new RequestDto();
     private bool _isRequestLimitAchieved = false;
 
     protected async void GetMatches()
@@ -53,4 +60,5 @@ else
         }
         StateHasChanged();
     }
+
 }

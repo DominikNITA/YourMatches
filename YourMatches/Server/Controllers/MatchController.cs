@@ -20,10 +20,10 @@ namespace YourMatches.Server.Controllers
     public class MatchController : ControllerBase
     {
         private readonly ILogger<MatchController> logger;
-        private readonly ApiHelper _apiHelper;
+        private readonly ApiCallLimiter _apiHelper;
         private readonly MatchRetriever _matchRetriever;
 
-        public MatchController(ILogger<MatchController> logger, ApiHelper apiHelper, MatchRetriever matchRetriever)
+        public MatchController(ILogger<MatchController> logger, ApiCallLimiter apiHelper, MatchRetriever matchRetriever)
         {
             this.logger = logger;
             _apiHelper = apiHelper;
@@ -33,6 +33,10 @@ namespace YourMatches.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<List<ScheduledMatchDto>>> Get([FromBody]RequestDto request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             if (_apiHelper.CheckCallAvaibilty())
             {
                 return await _matchRetriever.GetMatchesFromApi(request);

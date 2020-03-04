@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using YourMatches.Server.Services;
+using YourMatches.Server.Services.IWebScraper;
 
 namespace YourMatches.Server
 {
@@ -20,9 +21,9 @@ namespace YourMatches.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
-            services.AddSingleton(new ApiHelper(2,60));
+            services.AddSingleton(new ApiCallLimiter(10,60));
             services.AddSingleton<LogoContainer>();
-            services.AddHttpClient<WebScraper>();
+            services.AddHttpClient<WikipediaWebScraper>();
             services.AddHttpClient<MatchRetriever>();
         }
 

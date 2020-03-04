@@ -1,56 +1,60 @@
 ﻿@inject HttpClient _http
 @using YourMatches.Client.Components.FilterFormComponents
-<EditForm Model="@Request" OnValidSubmit="OnSubmitCallback">
-    <DataAnnotationsValidator />
-    @*<ValidationSummary />*@
-    <div class="d-flex flex-column flex-md-row align-items-stretch">
-        <OptionsSelectionComponent Title="Leagues:">
-            @foreach (var leagueOption in SupportedOptions.LeaguesNames)
-            {
-                <div>
-                    <input type="checkbox" id="@leagueOption.Key.ToString()-checkbox" checked @onchange="eventArgs => { LeagueOptionCheckChanged(leagueOption.Key, eventArgs.Value); }" />
-                    <label class="form-check-label" for="@leagueOption.Key.ToString()-checkbox">@leagueOption.Value</label>
-                </div>
-            }
-            <ValidationMessage For="@( () => Request.LeaguesChecked)"></ValidationMessage>
-        </OptionsSelectionComponent>
-        <OptionsSelectionComponent Title="Match status:">
-            @foreach (var statusOption in SupportedOptions.StatusNames)
-            {
-                <div>
-                    <input type="checkbox" checked id="@statusOption.Key.ToString()-checkbox" @onchange="eventArgs => { StatusOptionCheckChanged(statusOption.Key, eventArgs.Value); }" />
-                    <label class="form-check-label" for="@statusOption.Key.ToString()-checkbox">@statusOption.Value</label>
-                </div>
-            }
-            <ValidationMessage For="@( () => Request.StatusChecked)"></ValidationMessage>
-        </OptionsSelectionComponent>
-        <OptionsSelectionComponent Title="Choose time span:">
-            <div class="d-flex flex-column">
-                @if (!Request.IsEndingDateSelected)
+
+    <EditForm Model="@Request" OnValidSubmit="OnSubmitCallback" class="d-flex flex-column justify-content-center">
+        <DataAnnotationsValidator />
+
+        <div class="d-flex flex-column flex-md-row align-items-stretch justify-content-center flex-wrap">
+            <OptionsSelectionComponent Title="Leagues:">
+                @foreach (var leagueOption in SupportedOptions.LeaguesNames)
                 {
-                    <DatePickerComponent Title="Date: ">
-                        <input type="date" @bind-value="Request.StartingDate" />
-                    </DatePickerComponent>
+                    <div>
+                        <input type="checkbox" id="@leagueOption.Key.ToString()-checkbox" checked @onchange="eventArgs => { LeagueOptionCheckChanged(leagueOption.Key, eventArgs.Value); }" />
+                        <label class="form-check-label" for="@leagueOption.Key.ToString()-checkbox">@leagueOption.Value</label>
+                    </div>
                 }
-                else
+                <ValidationMessage For="@( () => Request.LeaguesChecked)"></ValidationMessage>
+            </OptionsSelectionComponent>
+
+            <OptionsSelectionComponent Title="Match status:">
+                @foreach (var statusOption in SupportedOptions.StatusNames)
                 {
-                    <DatePickerComponent Title="From: ">
-                        <input type="date" @bind-value="Request.StartingDate" />
-                    </DatePickerComponent>
-                    <DatePickerComponent Title="To:">
-                        <input type="date" @bind-value="Request.EndingDate" />
-                    </DatePickerComponent>
+                    <div>
+                        <input type="checkbox" checked id="@statusOption.Key.ToString()-checkbox" @onchange="eventArgs => { StatusOptionCheckChanged(statusOption.Key, eventArgs.Value); }" />
+                        <label class="form-check-label" for="@statusOption.Key.ToString()-checkbox">@statusOption.Value</label>
+                    </div>
                 }
-            </div>
-            <div class="py-1 d-flex justify-content-center align-items-center">
-                <input type="checkbox" id="ending-date-checkbox" @onchange="eventArgs => { EndingDateSelectionChanged(eventArgs.Value); }" />
-                <label class="form-check-label" for="ending-date-checkbox">Select range of time</label>
-            </div>
-            <ValidationMessage For="@( () => Request.StartingDate )" ></ValidationMessage>
-        </OptionsSelectionComponent>
-        <input type="submit" value="Search" class="btn btn-primary start-search-button m-auto" />
-    </div>
-</EditForm>
+                <ValidationMessage For="@( () => Request.StatusChecked)"></ValidationMessage>
+            </OptionsSelectionComponent>
+
+            <OptionsSelectionComponent Title="Choose time span:">
+                <div class="d-flex flex-column">
+                    @if (!Request.IsEndingDateSelected)
+                    {
+                        <DatePickerComponent Title="Date: ">
+                            <input type="date" @bind-value="Request.StartingDate" />
+                        </DatePickerComponent>
+                    }
+                    else
+                    {
+                        <DatePickerComponent Title="From: ">
+                            <input type="date" @bind-value="Request.StartingDate" />
+                        </DatePickerComponent>
+                        <DatePickerComponent Title="To:">
+                            <input type="date" @bind-value="Request.EndingDate" />
+                        </DatePickerComponent>
+                    }
+                </div>
+                <div class="py-1 d-flex justify-content-center align-items-center">
+                    <input type="checkbox" id="ending-date-checkbox" @onchange="eventArgs => { EndingDateSelectionChanged(eventArgs.Value); }" />
+                    <label class="form-check-label" for="ending-date-checkbox">Select range of time</label>
+                </div>
+                <ValidationMessage For="@( () => Request.StartingDate )"></ValidationMessage>
+            </OptionsSelectionComponent>
+        </div>
+
+        <input type="submit" value="Search" class="start-search-button" />
+    </EditForm>
 @code {
     [Parameter]
     public RequestDto Request { get; set; }
@@ -106,6 +110,7 @@
         Request.IsEndingDateSelected = (bool)checkedValue;
         if (Request.IsEndingDateSelected)
         {
+            // Sets the initial time delay in days for the second date picker
             int initialTimeRange = 1;
             Request.EndingDate = Request.StartingDate.AddDays(initialTimeRange);
         }

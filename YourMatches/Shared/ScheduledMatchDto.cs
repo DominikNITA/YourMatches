@@ -6,8 +6,8 @@ namespace YourMatches.Shared
 {
     public class ScheduledMatchDto
     {
-        public TeamDto HomeTeam { get; set; }
-        public TeamDto AwayTeam { get; set; }
+        public string HomeTeam { get; set; }
+        public string AwayTeam { get; set; }
         public DateTime Date { get; set; }
         public Status Status { get; set; }
         public ScoreResult ScoreResult { get; set; }
@@ -19,7 +19,7 @@ namespace YourMatches.Shared
 
         }
 
-        public ScheduledMatchDto(TeamDto homeTeam, TeamDto awayTeam, DateTime date, Status status, ScoreResult scoreResult, int matchDay, LeagueDto league)
+        public ScheduledMatchDto(string homeTeam, string awayTeam, DateTime date, Status status, ScoreResult scoreResult, int matchDay, LeagueDto league)
         {
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;

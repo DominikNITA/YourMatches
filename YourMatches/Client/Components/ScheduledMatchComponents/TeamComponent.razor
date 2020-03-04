@@ -29,9 +29,10 @@
         {
             _cssClass = "flex-md-row-reverse";
         }
-
+        //Query local logo container for searched logo
         var source = _logos.Logos.Where(l => l.ClubName == TeamName).Select(l => l.ImageSource).FirstOrDefault();
 
+        //If logo cannot be found localy, try to retrieve it from the server
         if (source == null)
         {
             bool logoLoaded = false;

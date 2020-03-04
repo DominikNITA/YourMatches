@@ -1,19 +1,23 @@
 ﻿@using YourMatches.Client.Components.ScheduledMatchComponents
 <div class="match-tab d-flex flex-column mx-md-2 my-2">
     <div class="general d-flex flex-column flex-md-row px-3 py-2">
+
         <div class="date-container d-flex flex-row flex-md-column mr-2 align-items-center">
             <DateContainerComponent  MatchDate="Match.Date"></DateContainerComponent>
         </div>
+
         <div class="teams-container d-flex flex-row justify-content-between mx-1 px-2">
-            <TeamComponent TeamName="@Match.HomeTeam.TeamName" Venue="home"></TeamComponent>
+            <TeamComponent TeamName="@Match.HomeTeam" Venue="home"></TeamComponent>
             <TeamSeparatorComponent Status="Match.Status" ScoreResult="Match.ScoreResult"></TeamSeparatorComponent>
-            <TeamComponent TeamName="@Match.AwayTeam.TeamName" Venue="away"></TeamComponent>
+            <TeamComponent TeamName="@Match.AwayTeam" Venue="away"></TeamComponent>
         </div>
+
         <div class="button-container px-2">
             <div class="mx-auto" @onclick="ChangeDisplay">
                 <span class="oi oi-chevron-bottom details-button @_buttonStyle" title="Details for match" aria-hidden="true"></span>
             </div>
         </div>
+
     </div>
     @if (_areDetailsDisplayed)
     {
@@ -32,6 +36,9 @@
 </div>
 
 @code {
+    //TODO: Redo button
+    //TODO: Complete Details
+
     [Parameter]
     public ScheduledMatchDto Match { get; set; }
 
@@ -40,7 +47,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //Date is in UTC, so we change it to client time zone
+        //Date is in UTC, so we change it to the client time zone
         Match.Date = Match.Date.ToLocalTime();
     }
 
