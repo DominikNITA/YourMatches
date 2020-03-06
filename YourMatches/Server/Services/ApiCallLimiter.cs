@@ -9,13 +9,13 @@ namespace YourMatches.Server.Services
 {
     public class ApiCallLimiter
     {
-        private List<Timer> callCounter;
+        private List<Timer> _callCounter;
         private int _maxCallsPerInterval;
         private int _interval;
 
         public ApiCallLimiter()
         {
-            callCounter = new List<Timer>();
+            _callCounter = new List<Timer>();
             _maxCallsPerInterval = 1;
             _interval = 1;
         }
@@ -24,28 +24,28 @@ namespace YourMatches.Server.Services
         /// <param name="interval">Interval in seconds</param>
         public ApiCallLimiter(int maxCallsPerInterval, int interval)
         {
-            callCounter = new List<Timer>();
+            _callCounter = new List<Timer>();
             _maxCallsPerInterval = maxCallsPerInterval;
             _interval = interval;
         }
 
         public bool CheckCallAvaibilty()
         {
-            if (callCounter.Count < _maxCallsPerInterval)
+            if (_callCounter.Count < _maxCallsPerInterval)
             {
                 var timer = new Timer();
                 timer.Interval = _interval * 1000;
                 timer.Elapsed += new ElapsedEventHandler(DeleteCall);
                 timer.Start();
-                callCounter.Add(timer);
+                _callCounter.Add(timer);
                 return true;
             }
             return false;
         }
         private void DeleteCall(object sender, EventArgs e)
         {
-            if (callCounter.Count > 0)
-                callCounter.RemoveAt(0);
+            if (_callCounter.Count > 0)
+                _callCounter.RemoveAt(0);
         }
     }
 }
