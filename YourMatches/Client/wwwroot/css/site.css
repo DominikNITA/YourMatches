@@ -212,7 +212,7 @@ app {
     width: 10rem;
     word-break: break-word;
     max-width: 100%;
-    flex-grow: 1;
+    font-weight: 800;
 }
 
 .team-logo-container {
