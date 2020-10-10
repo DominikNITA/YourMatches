@@ -1,13 +1,13 @@
 ﻿@page "/"
 @inject HttpClient Http
 
-<LandingLogo></LandingLogo>
+
 <div class="col-12 col-md-8 col-xl-6 mt-3 mb-5 top-header">
     <h1 class="mx-auto">Hello, football fan!</h1>
     <p>This app allows you to check upcoming matches from top five european leagues. You can select specific date or date span of maximum 10 days. Live scores update on resubmit of form. If you would like to add some new features feel free to send them to me via <a href="https://github.com/DominikNITA/YourMatches">Github</a>.</p>
     <p>All trademarks are the property of their respective owners and are used to facilitate identification of clubs</p>
 </div>
-<FilterForm OnSubmitCallback="@GetMatches" Request="req"></FilterForm>
+<FilterForm OnSubmitCallback="@GetMatches" Request="request"></FilterForm>
 @* Order of conditions matters *@
 @if (_isRequestLimitAchieved)
 {
@@ -27,7 +27,7 @@ else if (matches.Count() == 0)
 }
 else
 {
-    <div class="container col-12 my-3">
+    <div class="container col-12 col-md-8 col-lg-6 my-3">
         <div class="row justify-content-center align-items-stretch">
             @foreach (var match in matches)
             {
@@ -38,9 +38,9 @@ else
 }
 
 @code{
-    private List<ScheduledMatchDto> matches;
-    private RequestDto req = new RequestDto();
-    private bool _isRequestLimitAchieved = false;
+    List<ScheduledMatchDto> matches;
+    RequestDto request = new RequestDto();
+    bool _isRequestLimitAchieved = false;
 
     protected async void GetMatches()
     {
@@ -48,8 +48,8 @@ else
         _isRequestLimitAchieved = false;
         try
         {
-            var temp = await Http.PostAsJsonAsync("match", req);
-            matches = await temp.Content.ReadFromJsonAsync<List<ScheduledMatchDto>>();
+            var response = await Http.PostAsJsonAsync("match", request);
+            matches = await response.Content.ReadFromJsonAsync<List<ScheduledMatchDto>>();
             if (matches == null)
             {
                 matches = new List<ScheduledMatchDto>();

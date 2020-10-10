@@ -1,7 +1,6 @@
 ﻿@using YourMatches.Client.Components.ScheduledMatchComponents
-<div class="match-tab d-flex flex-column mx-md-2 my-2">
+<div class="match-tab col-12 d-flex flex-column mx-md-2 my-2">
     <div class="general d-flex flex-column flex-md-row px-3 py-2">
-
         <div class="date-container d-flex flex-row flex-md-column mr-2 align-items-center">
             <DateContainerComponent  MatchDate="Match.Date"></DateContainerComponent>
         </div>
@@ -17,7 +16,6 @@
                 <span class="oi oi-chevron-bottom details-button @_buttonStyle" title="Details for match" aria-hidden="true"></span>
             </div>
         </div>
-
     </div>
     @if (_areDetailsDisplayed)
     {
