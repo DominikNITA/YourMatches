@@ -48,7 +48,8 @@ else
         _isRequestLimitAchieved = false;
         try
         {
-            matches = await Http.PostJsonAsync<List<ScheduledMatchDto>>("match", req);
+            var temp = await Http.PostAsJsonAsync("match", req);
+            matches = await temp.Content.ReadFromJsonAsync<List<ScheduledMatchDto>>();
             if (matches == null)
             {
                 matches = new List<ScheduledMatchDto>();

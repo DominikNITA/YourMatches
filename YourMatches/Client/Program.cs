@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
-using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using YourMatches.Client.Services;
 using Toolbelt.Blazor.TimeZoneKit;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace YourMatches.Client
 {
@@ -16,9 +19,9 @@ namespace YourMatches.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
-            _ = builder.Services.AddSingleton<LogoDtoContainer>();
-            
-            await builder.Build().UseLocalTimeZone().RunAsync();
+            builder.Services.AddSingleton<LogoDtoContainer>();
+            builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            await builder.Build().RunAsync();
         }
     }
 }
