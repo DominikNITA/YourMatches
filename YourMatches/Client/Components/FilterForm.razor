@@ -1,5 +1,4 @@
-﻿@inject HttpClient _http
-@using YourMatches.Client.Components.FilterFormComponents
+﻿@using YourMatches.Client.Components.FilterFormComponents
 
 <EditForm Model="@Request" OnValidSubmit="OnSubmitCallback" class="d-flex flex-column justify-content-center p-3 mb-3 options">
     <DataAnnotationsValidator />
@@ -56,10 +55,8 @@
     <input type="submit" value="SEARCH" class="start-search-button" />
 </EditForm>
 @code {
-    [Parameter]
-    public RequestDto Request { get; set; }
-    [Parameter]
-    public EventCallback OnSubmitCallback { get; set; }
+    [Parameter] public RequestDto Request { get; set; }
+    [Parameter] public EventCallback OnSubmitCallback { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

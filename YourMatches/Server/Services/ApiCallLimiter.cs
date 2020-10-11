@@ -29,7 +29,7 @@ namespace YourMatches.Server.Services
             _interval = interval;
         }
 
-        public bool CheckCallAvaibilty()
+        public bool CheckCallAvailability()
         {
             if (_callCounter.Count < _maxCallsPerInterval)
             {

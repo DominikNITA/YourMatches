@@ -1,5 +1,7 @@
 ﻿@page "/"
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.WebUtilities
 
 
 <div class="col-12 col-md-8 col-xl-6 mt-3 mb-5 top-header">
@@ -7,7 +9,7 @@
     <p>This app allows you to check upcoming matches from top five european leagues. You can select specific date or date span of maximum 10 days. Live scores update on resubmit of form. If you would like to add some new features feel free to send them to me via <a href="https://github.com/DominikNITA/YourMatches">Github</a>.</p>
     <p>All trademarks are the property of their respective owners and are used to facilitate identification of clubs</p>
 </div>
-<FilterForm OnSubmitCallback="@GetMatches" Request="request"></FilterForm>
+<FilterForm OnSubmitCallback="@SetQueryString" Request="request"></FilterForm>
 @* Order of conditions matters *@
 @if (_isRequestLimitAchieved)
 {
@@ -42,7 +44,13 @@ else
     RequestDto request = new RequestDto();
     bool _isRequestLimitAchieved = false;
 
-    protected async void GetMatches()
+    void SetQueryString()
+    {
+        var query = request.GetQueryDictionary();
+        NavigationManager.NavigateTo(QueryHelpers.AddQueryString(NavigationManager.BaseUri, query));
+    }
+
+    protected async Task GetMatches()
     {
         matches = null;
         _isRequestLimitAchieved = false;
@@ -55,10 +63,27 @@ else
                 matches = new List<ScheduledMatchDto>();
             }
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             _isRequestLimitAchieved = true;
         }
         StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += HandleLocationChanged;
+    }
+
+    async void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        request.TryGetStateFromQuery(NavigationManager);
+        await GetMatches();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChanged;
     }
 }

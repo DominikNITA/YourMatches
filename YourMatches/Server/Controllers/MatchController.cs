@@ -33,11 +33,13 @@ namespace YourMatches.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<List<ScheduledMatchDto>>> Get([FromBody]RequestDto request)
         {
+            Console.WriteLine(request.StatusChecked.Count);
+            Console.WriteLine(request.StartingDate.ToString());
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            if (_apiCallLimiter.CheckCallAvaibilty())
+            if (_apiCallLimiter.CheckCallAvailability())
             {
                 return await _matchRetriever.GetMatchesFromApi(request);
             }

@@ -20,14 +20,14 @@
     @if (_areDetailsDisplayed)
     {
         <div class="details-container d-flex flex-column align-content-center">
-            <span>
+            <strong>
                 Details of the match
+            </strong>
+            <span>
+                League: <strong>@Match.League.FullName</strong>
             </span>
             <span>
-                League: @Match.League.FullName
-            </span>
-            <span>
-                Matchday: @Match.MatchDay
+                Matchday: <strong>@Match.MatchDay</strong>
             </span>
         </div>
     }
