@@ -13,7 +13,7 @@ namespace YourMatches.Client.Extensions
         {
             var query = new Dictionary<string, string>();
 
-            string statusString = String.Join(",", requestDto.StatusChecked.Select(status => status.ToString()));
+            string statusString = String.Join(",", requestDto.StatusChecked.Where(status => !RequestDto.AlwaysSelectedStatus.Contains(status)).Select(status => status.ToString()));
             query.Add("status", statusString);
 
             string leaguesString = String.Join(",", requestDto.LeaguesChecked.Select(league => league.ToString()));

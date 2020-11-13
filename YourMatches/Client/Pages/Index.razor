@@ -41,7 +41,7 @@ else
 
 @code{
     List<ScheduledMatchDto> matches;
-    RequestDto request = new RequestDto();
+    RequestDto request = null;
     bool _isRequestLimitAchieved = false;
 
     void SetQueryString()
@@ -71,13 +71,25 @@ else
         StateHasChanged();
     }
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
         NavigationManager.LocationChanged += HandleLocationChanged;
+        HandleLocationChanged(null, null);
     }
+
+    //protected async override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        request.TryGetStateFromQuery(NavigationManager);
+    //        await GetMatches();
+    //    }
+    //}
 
     async void HandleLocationChanged(object sender, LocationChangedEventArgs e)
     {
+        Console.WriteLine("In HandleLocationChanged!");
+        if (request == null) request = new RequestDto();
         request.TryGetStateFromQuery(NavigationManager);
         await GetMatches();
     }

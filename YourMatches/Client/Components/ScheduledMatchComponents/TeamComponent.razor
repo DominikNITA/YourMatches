@@ -15,7 +15,8 @@
     public string TeamName { get; set; }
     [Parameter]
     public string Venue { get; set; }
-    private string _imageSource = "css/blank-logo.svg";
+    static string _unknownClubLogoSource = "css/blank-logo.svg";
+    private string _imageSource = _unknownClubLogoSource;
     private string _cssClass;
 
     protected override async Task OnInitializedAsync()
@@ -29,36 +30,39 @@
         {
             _cssClass = "flex-md-row-reverse";
         }
-        //Query local logo container for searched logo
-        var source = _logos.Logos.Where(l => l.ClubName == TeamName).Select(l => l.ImageSource).FirstOrDefault();
 
-        //If logo cannot be found localy, try to retrieve it from the server
-        if (source == null)
+        //Query local logo container for searched logo
+        var source = _logos.GetLogoSourceByClubName(TeamName);
+
+        _imageSource = source == null ? _unknownClubLogoSource : source;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            bool logoLoaded = false;
-            while (!logoLoaded)
+            //If logo cannot be found localy, try to retrieve it from the server
+            if (_imageSource == _unknownClubLogoSource)
             {
-                try
-                {
-                    source = await GetLogoSourceFromServer();
-                    logoLoaded = true;
-                }
-                catch (Exception)
-                {
-                    await Task.Delay(150);
-                }
+                var source = await GetLogoSourceFromServer();
+                _imageSource = source == null ? _unknownClubLogoSource : source;
+                StateHasChanged();
             }
         }
-        _imageSource = source == null ? _imageSource : source;
     }
 
     private async Task<string> GetLogoSourceFromServer()
     {
-        //TODO: Catch errors
-        var logo = await _http.GetFromJsonAsync<LogoDto>($"Logo/{TeamName}");
-        //Add logo source to state service
-        _logos.Logos.Add(logo);
-        return logo.ImageSource;
+        try
+        {
+            var logo = await _http.GetFromJsonAsync<LogoDto>($"Logo/{TeamName}");
+            _logos.AddLogo(logo);
+            return logo.ImageSource;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
 

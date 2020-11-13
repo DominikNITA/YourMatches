@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using YourMatches.Shared;
@@ -60,7 +61,7 @@ namespace YourMatches.Client.Extensions
                     return true;
                 }
 
-                if(typeof(T) == typeof(DateTime) && DateTime.TryParse(valueFromQueryString, out var valueAsDateTime))
+                if(typeof(T) == typeof(DateTime) && DateTime.TryParseExact(valueFromQueryString,"MMddyyyy",CultureInfo.InvariantCulture,DateTimeStyles.None, out var valueAsDateTime))
                 {
                     value = (T)(object)valueAsDateTime;
                     return true;

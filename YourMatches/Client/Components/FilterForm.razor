@@ -60,7 +60,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
+        Console.WriteLine("In filterForm initilization!");
         foreach (var leagueOption in SupportedOptions.LeaguesNames)
         {
             if (!Request.LeaguesChecked.Contains(leagueOption.Key))
@@ -68,6 +68,7 @@
                 Request.LeaguesChecked.Add(leagueOption.Key);
             }
         }
+
         foreach (var statusOption in SupportedOptions.StatusNames)
         {
             if (!Request.StatusChecked.Contains(statusOption.Key))

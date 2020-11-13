@@ -7,8 +7,8 @@ namespace YourMatches.Shared
 {
     public class RequestDto : IValidatableObject
     {
-        private readonly static List<Status> _alwaysSelectedStatus = new List<Status>() { Status.POSTPONED, Status.CANCELED };
-        public List<Status> StatusChecked { get; set; } = new List<Status>(_alwaysSelectedStatus);
+        public readonly static List<Status> AlwaysSelectedStatus = new List<Status>() { Status.POSTPONED, Status.CANCELED };
+        public List<Status> StatusChecked { get; set; } = new List<Status>(AlwaysSelectedStatus);
         public List<League> LeaguesChecked { get; set; } = new List<League>();
         public DateTime StartingDate { get; set; } = DateTime.Now;
         public DateTime EndingDate { get; set; } = DateTime.Now;
@@ -21,7 +21,7 @@ namespace YourMatches.Shared
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (StatusChecked.Count <= _alwaysSelectedStatus.Count)
+            if (StatusChecked.Count <= AlwaysSelectedStatus.Count)
             {
                 yield return new ValidationResult("You must select at least one match state.", new[] { nameof(StatusChecked) });
             }
