@@ -22,13 +22,13 @@ namespace YourMatches.Server.Services.IWebScraper
 
         public async Task<string> GetAddress(string clubName)
         {
-            var config = Configuration.Default.WithDefaultLoader();
-            var context = BrowsingContext.New(config);
-            string sanitizedClubName = clubName.Replace(' ', '_');
-            string url = startingUrl + sanitizedClubName;
-            var document = await context.OpenAsync(url);
             try
             {
+                var config = Configuration.Default.WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                string sanitizedClubName = clubName.Replace(' ', '_');
+                string url = startingUrl + sanitizedClubName;
+                var document = await context.OpenAsync(url);
                 IElement image = document.QuerySelector(".infobox.vcard").QuerySelector("tbody").QuerySelector("tr").QuerySelector("td").QuerySelector("a").QuerySelector("img");
                 return image?.GetAttribute("src");
             }
@@ -36,7 +36,6 @@ namespace YourMatches.Server.Services.IWebScraper
             {
                 return null;
             }
-            
         }
     }
 }

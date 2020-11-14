@@ -8,7 +8,7 @@ namespace YourMatches.Server.Models
 {
     public class Logo
     {
-        public string ClubName { get; set; }
+        public string ClubName { get; private set; }
         public string ImageSource { get; private set; }
         public DateTime LastUpdated { get; private set; }
         public Logo()
@@ -22,15 +22,15 @@ namespace YourMatches.Server.Models
             UpdateImageSource(imageSource);
         }
 
-        public LogoDto ToLogoDto()
-        {
-            return new LogoDto(ClubName, ImageSource);
-        }
-
         public void UpdateImageSource(string newImageSource)
         {
             ImageSource = newImageSource;
             LastUpdated = DateTime.Now;
+        }
+
+        public LogoDto ToLogoDto()
+        {
+            return new LogoDto(ClubName, ImageSource);
         }
     }
 }

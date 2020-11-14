@@ -30,15 +30,20 @@ namespace YourMatches.Server.Controllers
         [HttpGet("{clubName}")]
         public async Task<LogoDto> Get(string clubName)
         {
-            //TODO: Refactor whole thing
-            if (_logoContainer.Logos.Where(logo => logo.ClubName == clubName).ToList().Count() == 0)
+            if (!_logoContainer.ContainsLogoForClubName(clubName))
             {
-                _logoContainer.Logos.Add(new Logo(clubName, null));
                 var imageSource = await _scraper.GetAddress(clubName);
-                //TODO: Catch errors
-                _logoContainer.Logos.Where(logo => logo.ClubName == clubName).First().UpdateImageSource(imageSource);
+                if(imageSource == null)
+                {
+                    //return null when scraper didn't found logo or crashed
+                    logger.LogWarning("Unable to get logo for club: " + clubName);
+                    return null;
+                }
+
+                _logoContainer.AddLogo(clubName, imageSource);
+                return new LogoDto(clubName, imageSource);
             }
-            return _logoContainer.Logos.Where(logo => logo.ClubName == clubName).First().ToLogoDto();
+            return _logoContainer.GetLogoByClubName(clubName).ToLogoDto();
         }
     }
 }

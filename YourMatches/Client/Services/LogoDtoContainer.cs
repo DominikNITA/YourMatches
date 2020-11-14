@@ -17,6 +17,7 @@ namespace YourMatches.Client.Services
 
         public void AddLogo(LogoDto logoDto)
         {
+            if (logoDto == null) throw new Exception("LogoDto is null");
             Logos.Add(logoDto);
         }
 

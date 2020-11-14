@@ -21,15 +21,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //TODO: Refactor
-        if (Venue.ToLower() == "home")
-        {
-            _cssClass = "flex-md-row";
-        }
-        else
-        {
-            _cssClass = "flex-md-row-reverse";
-        }
+        _cssClass = Venue.ToLower() == "home" ? "flex-md-row" : "flex-md-row-reverse";
 
         //Query local logo container for searched logo
         var source = _logos.GetLogoSourceByClubName(TeamName);
