@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.14.0-alpha-789" />
     <PackageReference Include="FootballDataApi" Version="1.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0-rc.1.20451.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
