@@ -21,9 +21,9 @@ namespace YourMatches.Server.Controllers
     {
         private readonly ILogger<MatchController> logger;
         private readonly ApiCallLimiter _apiCallLimiter;
-        private readonly MatchRetriever _matchRetriever;
+        private readonly IMatchRetriever _matchRetriever;
 
-        public MatchController(ILogger<MatchController> logger, ApiCallLimiter apiHelper, MatchRetriever matchRetriever)
+        public MatchController(ILogger<MatchController> logger, ApiCallLimiter apiHelper, IMatchRetriever matchRetriever)
         {
             this.logger = logger;
             _apiCallLimiter = apiHelper;
@@ -41,7 +41,7 @@ namespace YourMatches.Server.Controllers
             }
             if (_apiCallLimiter.CheckCallAvailability())
             {
-                return await _matchRetriever.GetMatchesFromApi(request);
+                return await _matchRetriever.GetMatches(request);
             }
             else
             {

@@ -10,7 +10,7 @@ using YourMatches.Shared;
 
 namespace YourMatches.Server.Services
 {
-    public class MatchRetriever
+    public class MatchRetriever : IMatchRetriever
     {
         private HttpClient _httpClient;
         private readonly string API_TOKEN = "e95d43bc75a44b5b9ff0d7b2749ff52f" /*"816c6d64f7d84e3c82eb5af45172fa86"*/;
@@ -29,16 +29,16 @@ namespace YourMatches.Server.Services
             _httpClient.DefaultRequestHeaders.Add("X-Auth-Token", API_TOKEN);
         }
 
-        public async Task<List<ScheduledMatchDto>> GetMatchesFromApi(RequestDto request)
+        public async Task<List<ScheduledMatchDto>> GetMatches(RequestDto request)
         {
             //TODO: Refactor
 
             //Convert the list of selected list to the string of filter
             var codes = GetCompetitionsCodes(request.LeaguesChecked);
 
-            var matchController = MatchProvider.Create().With(_httpClient).Build();
+            var matchProvider = MatchProvider.Create().With(_httpClient).Build();
 
-            var matches = await matchController.GetAllMatches("competitions", codes, "dateFrom", request.StartingDate.ToString("yyyy-MM-dd"), "dateTo", request.EndingDate.ToString("yyyy-MM-dd"));
+            var matches = await matchProvider.GetAllMatches("competitions", codes, "dateFrom", request.StartingDate.ToString("yyyy-MM-dd"), "dateTo", request.EndingDate.ToString("yyyy-MM-dd"));
 
             var result = new List<ScheduledMatchDto>();
             foreach (var match in matches)
@@ -61,7 +61,7 @@ namespace YourMatches.Server.Services
             return result;
         }
 
-        private string GetCompetitionsCodes(List<League> leagues)
+        private static string GetCompetitionsCodes(List<League> leagues)
         {
             List<string> leaguesCodes = LeaguesCodesDict.Where(x => leagues.Contains(x.Key)).Select(x => x.Value).ToList(); ;
             return string.Join(",", leaguesCodes);

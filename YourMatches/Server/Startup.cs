@@ -11,6 +11,13 @@ namespace YourMatches.Server
 {
     public class Startup
     {
+        IWebHostEnvironment CurrentEnvironment;
+
+        public Startup(IWebHostEnvironment currentEnvironment)
+        {
+            CurrentEnvironment = currentEnvironment;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -21,10 +28,17 @@ namespace YourMatches.Server
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
-            services.AddSingleton(new ApiCallLimiter(10,60));
+            services.AddSingleton(new ApiCallLimiter(10, 60));
             services.AddSingleton<LogoContainer>();
             services.AddHttpClient<WikipediaWebScraper>();
-            services.AddHttpClient<MatchRetriever>();
+            if (CurrentEnvironment.IsDevelopment())
+            {
+                services.AddSingleton<IMatchRetriever, MockMatchRetriever>();
+            }
+            else
+            {
+                services.AddHttpClient<IMatchRetriever, MatchRetriever>();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
