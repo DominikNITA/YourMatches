@@ -1,0 +1,11 @@
+﻿.top-header {
+    margin-top: 3rem;
+    padding: 15px 20px;
+    background-color: var(--secondary-bg-color);
+    border-radius: 1rem;
+    font-size: 1.1rem;
+}
+
+    .top-header p {
+        text-align: justify;
+    }

@@ -1,0 +1,82 @@
+﻿::deep .options {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+/* Moved to index.css
+    .options-container {
+    margin-top: 1.2rem;
+    background-color: var(--options-bg-color);
+    border-radius: 13px;
+    padding: 0.3rem;
+    display: grid;
+    grid-template-columns: auto 200px auto;
+    grid-template-rows: auto auto;
+}*/
+
+::deep .options-selection {
+    background-color: var(--options-content-bg-color);
+    border-radius: 13px;
+    font-size: 1.2rem;
+    overflow: hidden;
+    box-shadow: 5px 6px 0px 3px rgba(78,52,46,0.77);
+    margin: 0.8rem 0.8rem;
+    min-width: 200px;
+}
+
+::deep .options-selection-header {
+    font-size: 1.5em;
+    font-family: Roboto;
+    background-color: var(--options-title-bg-color);
+    font-weight: 700;
+    padding-left: 15px;
+    padding-bottom: 5px;
+    padding: 5px 15px;
+}
+
+::deep .options-selection-content {
+    padding: 0px 8px;
+    margin: auto 0;
+}
+
+    ::deep .options-selection-content * {
+        font-size: 1.35rem;
+    }
+
+::deep .validation-message {
+    color: red;
+    font-weight: 700;
+}
+
+::deep .start-search-button {
+    grid-column: 2;
+    grid-row: 2;
+    border: 4.2px solid var(--options-title-bg-color);
+    border-radius: 28px;
+    color: black;
+    height: auto;
+    width: auto;
+    margin: 16px auto;
+    padding: 8px 18px;
+    background-color: rgba(0,0,0,0);
+    font-size: 1.3rem;
+    font-weight: bolder;
+    transition-duration: 0.3s;
+    cursor: pointer;
+    /*animation: pulse 2s infinite;*/
+}
+
+    ::deep .start-search-button:hover {
+        background-color: var(--options-title-bg-color);
+        transform: scale(1.2);
+    }
+
+    ::deep .start-search-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2pt var(--options-content-bg-color);
+    }

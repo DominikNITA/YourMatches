@@ -3,13 +3,10 @@
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.WebUtilities
 
+<TopHeader></TopHeader>
 
-<div class="col-12 col-md-8 col-xl-6 mt-3 mb-5 top-header">
-    <h1 class="mx-auto">Hello, football fan!</h1>
-    <p>This app allows you to check upcoming matches from top five european leagues. You can select specific date or date span of maximum 10 days. Live scores update on resubmit of form. If you would like to add some new features feel free to send them to me via <a href="https://github.com/DominikNITA/YourMatches">Github</a>.</p>
-    <p>All trademarks are the property of their respective owners and are used to facilitate identification of clubs</p>
-</div>
 <FilterForm OnSubmitCallback="@SetQueryString" Request="request"></FilterForm>
+
 @* Order of conditions matters *@
 @if (_isRequestLimitAchieved)
 {
@@ -29,14 +26,11 @@ else if (matches.Count() == 0)
 }
 else
 {
-    <div class="container col-12 col-md-8 col-lg-6 my-3">
-        <div class="row justify-content-center align-items-stretch">
-            @foreach (var match in matches)
-            {
-                <ScheduledMatch Match="match"></ScheduledMatch>
-            }
-        </div>
-    </div>
+    @foreach (var match in matches)
+    {
+        <ScheduledMatch Match="match"></ScheduledMatch>
+    }
+
 }
 
 @code{

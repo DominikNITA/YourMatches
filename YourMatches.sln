@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourMatches.Client", "YourM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YourMatches.Shared", "YourMatches\Shared\YourMatches.Shared.csproj", "{A6CDCB75-083F-494A-8FCC-70518B2E729A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "YourMatches\Tests\Tests.csproj", "{DAF37F1A-2A97-4C95-9BC8-0E1F04F796EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "YourMatches\Tests\Tests.csproj", "{DAF37F1A-2A97-4C95-9BC8-0E1F04F796EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

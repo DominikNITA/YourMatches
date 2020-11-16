@@ -1,0 +1,19 @@
+﻿footer {
+    width: 24rem;
+    height: 12rem;
+    max-height: calc(90vmin/2);
+    border: 1rem solid white;
+    border-radius: 13rem 13rem 0px 0px;
+    max-width: 90%;
+    border-bottom: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+    footer span {
+        position: relative;
+        bottom: 0;
+        font-weight: 600;
+        font-size: 1.4rem;
+    }
