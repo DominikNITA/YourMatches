@@ -26,11 +26,12 @@
         }
 
 .landing-logo-circle {
-    width: 50%;
-    max-width: 10rem;
-    width: 35%;
-    height: 5rem;
-    max-height: calc(50%/2);
+    width: 20vw;
+    height: 10vw;
+    max-height: 100px;
+    max-width: 200px;
+    min-height: 50px;
+    min-width: 100px;
     border: 15px solid white;
     border-radius: 0px 0px 13rem 13rem;
     border-top: 0;
